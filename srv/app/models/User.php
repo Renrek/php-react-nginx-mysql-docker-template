@@ -7,7 +7,7 @@ use App\Libraries\Core\DB;
 class User
 {
 
-    private $db;
+    private DB $db;
     
     public function __construct(){
         $this->db = new DB();

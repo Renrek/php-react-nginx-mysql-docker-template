@@ -2,7 +2,8 @@
 
 namespace App\Config;
 
-class DatabaseConst {
+class DatabaseConst
+{
     const HOST = 'mysql';
     const USER = 'template';
     const PASS = 'secret';

@@ -2,16 +2,21 @@
 
     namespace App\Libraries\Core;
 
-    class Controller
+    abstract class Controller
     {
+        //abstract public function index() : void;
+
         // require and return model object
-        public function model(string $model) : object {
+        // this needs to be moved to a BaseService controller
+        public function model(string $model) : object 
+        {
             require_once '../app/models/'. $model . '.php';
             return new $model();
         }
 
-        //
-        public function view(string $view, array $data = []) : void {
+        // view
+        public function view(string $view, array $data = []) : void 
+        {
             if(file_exists('../app/views/'. $view . '.php')){
                 require_once '../app/views/'. $view . '.php';
             } else {

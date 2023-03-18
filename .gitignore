@@ -1,5 +1,7 @@
 .DS_Store
 
+node_modules/
+dist/
 srv/app/libraries/vendors/
 
 .phpunit.result.cache

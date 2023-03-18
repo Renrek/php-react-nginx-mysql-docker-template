@@ -2,62 +2,111 @@
 
 namespace App\Libraries\Core;
 
+use App\Config\RouterConst;
+use App\Libraries\Helpers\Redirect;
+
 // Takes the submitted url and uses it to control the framework
-//Example domain.com/controller/method/param/param/param/
 
-Class Router {
+// Webpage Example: domain.com/controller/method/param/param/param/
+// [ controller, method, param, param, param, param, ... ]
 
-    // Defaults directs to home page should a controller not exist
-    // TODO Fix controller and method to not be mixed, set as mixed to accommodate legacy code.
-    protected mixed $currentController = 'Pages';
-    protected mixed $currentMethod = 'index';
-    protected array $params = [];
+// REST API Example: domain.com/api/thing/3/subThing/4/subSubThing/5
+// [ 'api', object, objectId, childObject, childObjectId, grandChildObject, grandChildObjectId, ...]
+    
+Class Router 
+{
+    private array $uri = []; 
+    private string $class = RouterConst::CONTROLLER_NAMESPACE . RouterConst::DEFAULT_CONTROLLER;
+    private string $method = RouterConst::DEFAULT_CONTROLLER_METHOD;
+    private array $params = [];
 
     public function __construct(){
 
-        $url = $this->getUrl();
-
-        // Check if controller child class exists, if so set it as current
-        if(file_exists('../app/controllers/' . ucwords($url[0]) .'.php')){
-            $this->currentController = ucwords($url[0]);
-            unset($url[0]);
+        $this->setUri();
+        
+        if($this->uri[0] === 'api'){
+            $this->loadApi();
+        } else {
+            $this->loadController();
         }
-
-        $file = '../app/controllers/' . $this->currentController . '.php';
-
-        // Ensure that the path provided was 
-        if (str_starts_with(realpath($file), '/srv/app/controllers/')){
-            // Call class by full namespace name 
-            $class = 'App\\Controllers\\'. $this->currentController;
-            // Instantiate the controller
-            $this->currentController = new $class;
-        }
-
-        // Check for method if not, all controllers should have an index method.
-        if(isset($url[1])){
-            if(method_exists($this->currentController, $url[1])){
-                $this->currentMethod = $url[1];
-                unset($url[1]);
-            }
-        }
-
-        // Set what is left of the array as params, controller and method should
-        // be removed.
-        $this->params = $url ? array_values($url) : [];
-
-        // callback with array of params
-        call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
-
     }
 
-    // Returns an array of the url broken down into an array
-    // [ controller, method, param, param ... ]
-    public function getUrl(){
+    private function loadApi(){
+        // Remove 'api' from path
+        unset($this->uri[0]);
+        // build this out more
+    }
+
+    private function loadController(){
+
+        // Go to default page if only domain is provided.
+        if(empty($this->uri[0])){
+            $this->callController();
+            return;
+        }
+
+        $file = RouterConst::CONTROLLERS_PATH . ucwords($this->uri[0]) . '.php';
+
+        // Sanitize controller file path
+        if (!realpath($file)){
+            Redirect::toNotFound();
+        } 
+
+        $this->class = RouterConst::CONTROLLER_NAMESPACE . ucwords($this->uri[0]);
+        unset($this->uri[0]);
+
+        // All Controllers must have index method by default
+        // If a method is not set by user, use controller default
+        if(isset($this->uri[1])){
+            $this->method = $this->uri[1];
+            unset($this->uri[1]);   
+        }
+
+        // If a method was provided but does not exists show not found
+        if (!method_exists(new $this->class, $this->method)){
+            Redirect::toNotFound();
+        }
+        
+        // Anything remaining in the array is used as params
+        $this->params = $this->uri ? array_values($this->uri) : [];
+        
+        // Make sure that the real path ends up within controller directory
+        if (str_starts_with($file, RouterConst::CONTROLLERS_PATH)){
+            $this->callController();
+        } else {
+            Redirect::toNotFound();
+        }
+        
+    }
+
+    // Returns an array of the url broken down into an array of uri elements
+    private function setUri(): void
+    {
         if(isset($_SERVER['REQUEST_URI'])){
-            $url = rtrim(ltrim($_SERVER['REQUEST_URI'], '/'));
-            $url = filter_var($url, FILTER_SANITIZE_URL);
-            return explode('/', $url);;
+            $uri = rtrim(ltrim($_SERVER['REQUEST_URI'], '/'));
+            $uri = filter_var($uri, FILTER_SANITIZE_URL);
+            $this->uri = explode('/', $uri);;
+        }
+
+        //Potential point of clean up, quick and dirty prototyping.
+        if(isset($this->uri[0])){
+            //TODO convert not-found to notFound, consider build step? 
+            // Currently converts not-found to notfound
+            $this->uri[0] = str_replace('-', '', $this->uri[0]);
+        }
+
+        if(isset($this->uri[1])){
+            //TODO convert not-found to notFound, consider build step? 
+            // Currently converts not-found to notfound
+            $this->uri[1] = str_replace('-', '', $this->uri[1]);
         }
     }
-
+    
+    private function callController(): void
+    {
+        call_user_func_array(
+            [new $this->class, $this->method], 
+            $this->params
+        );
+    }
 }
