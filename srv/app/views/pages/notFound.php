@@ -1,4 +1,4 @@
-<?php require APP_ROOT . '/views/inc/header.php' ?>
+<?php require APP_ROOT . '/views/include/header.php' ?>
     <div class="container-lg">
         
         404. That’s an error.
@@ -7,5 +7,5 @@ The requested URL /some/random/url was not found on this server. That’s all we
     </div>
     
    
-<?php require APP_ROOT . '/views/inc/footer.php' ?>
+<?php require APP_ROOT . '/views/include/footer.php' ?>
 
