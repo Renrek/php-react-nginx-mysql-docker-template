@@ -14,10 +14,11 @@
             return new $model();
         }
 
-        // view
+        // view figure out a way to dynamically add js scripts based on what is in /srv/public/js
         public function view(string $view, array $data = []) : void 
         {
             if(file_exists('../app/views/'. $view . '.php')){
+                $scripts = '<script src="/js/main.js"></script>';
                 require_once '../app/views/'. $view . '.php';
             } else {
                 die('View does not exist');
