@@ -6,15 +6,20 @@ module.exports = (env) => {
 
     const isProduction = (env.production !== undefined);
     const isDevelopment = (env.development !== undefined);
+
+    let plugins = [];
+    // Note: new MiniCssExtractPlugin({filename: "[name].[contenthash].css"})
+    plugins = isProduction ? [new MiniCssExtractPlugin({filename: "../css/[name].css"})] : [];
     
     return {
         mode: isProduction ? "production" : "development",
-        entry: "./src/index.ts",
+        entry: "./src/main.entry.ts",
         output: {
             //filename: "main.[contenthash].js",
             filename: "main.js",
             path: path.resolve(__dirname, "public/js") 
         },
+        plugins: plugins,
         module: {
             rules: [
                 {
@@ -24,7 +29,11 @@ module.exports = (env) => {
                 },
                 {
                     test: /\.scss$/,
-                    use: ["style-loader", "css-loader", "sass-loader"]
+                    use: [
+                        isProduction ? MiniCssExtractPlugin.loader : "style-loader", 
+                        "css-loader", 
+                        "sass-loader"
+                    ]
                 }
             ]
         },
