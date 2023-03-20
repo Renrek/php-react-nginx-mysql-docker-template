@@ -1,24 +1,30 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = (env) => {
 
     const isProduction = (env.production !== undefined);
     const isDevelopment = (env.development !== undefined);
 
-    let plugins = [];
-    // Note: new MiniCssExtractPlugin({filename: "[name].[contenthash].css"})
-    plugins = isProduction ? [new MiniCssExtractPlugin({filename: "../css/[name].css"})] : [];
+    
+    // Note: js files are "cleaned" but css is not
+    const plugins = isProduction ? [
+        new MiniCssExtractPlugin({filename: "../css/[name].[contenthash].css"})
+    ] : [];
+
+    const optimization = isProduction ? { minimizer: [new TerserPlugin()]} : {};
     
     return {
         mode: isProduction ? "production" : "development",
         entry: "./src/main.entry.ts",
         output: {
-            //filename: "main.[contenthash].js",
-            filename: "main.js",
-            path: path.resolve(__dirname, "public/js") 
+            filename: isProduction ? "[name].[contenthash].js" : "[name].js",
+            path: path.resolve(__dirname, "public/js"),
+            clean: true,
         },
+        //optimization: isProduction ? { minimizer: [new OptimizeCssAssetsPlugin]} // optimize-css-assets-webpack-plugin
+        optimization: optimization,
         plugins: plugins,
         module: {
             rules: [
@@ -34,6 +40,16 @@ module.exports = (env) => {
                         "css-loader", 
                         "sass-loader"
                     ]
+                },
+                {
+                    test: /\.(svg|png|jpg|gif)$/,
+                    use: {
+                        loader: "file-loader",
+                        options: {
+                            name: "[name].[hash].[ext]",
+                            outputPath: "img"
+                        }
+                    }
                 }
             ]
         },
