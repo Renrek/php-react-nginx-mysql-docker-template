@@ -1,12 +1,7 @@
-import "./index.scss";
 
-const thing : string = 'stuffzff';
+import * as React from 'react';
+import * as  ReactDOM from 'react-dom';
+import './index.scss'
+type AppProps = { num: number };
 
-const fun = (something : string) => console.log(something);
-
-fun(thing);
-
-if(false){
-    console.log('bobz;;');
-
-}
+export const Index = ({num}: AppProps) => <h1 className={"test"}>Total Number: {num}</h1>;

@@ -18,9 +18,9 @@
         public function view(string $view, array $data = []) : void 
         {
             if(file_exists('../app/views/'. $view . '.php')){
-                $listOFiles = scandir('/srv/public/js');
-                var_dump($listOFiles);
-                $scripts = '<script src="/js/main.80118490f21a7dde55cc.js"></script>';
+                //$listOFiles = scandir('/srv/public/js');
+                //var_dump($listOFiles);
+                $scripts = '<script src="/js/main.js"></script>';
                 require_once '../app/views/'. $view . '.php';
             } else {
                 die('View does not exist');

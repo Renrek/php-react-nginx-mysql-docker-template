@@ -17,7 +17,7 @@ module.exports = (env) => {
     
     return {
         mode: isProduction ? "production" : "development",
-        entry: "./src/main.entry.ts",
+        entry: "./src/main.entry.tsx",
         output: {
             filename: isProduction ? "[name].[contenthash].js" : "[name].js",
             path: path.resolve(__dirname, "public/js"),
@@ -28,6 +28,18 @@ module.exports = (env) => {
         plugins: plugins,
         module: {
             rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use : {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                ['@babel/preset-env', { targets: "defaults" }]
+                            ]
+                        }
+                    }
+                },
                 {
                     test: /\.(tsx|ts)$/,
                     use: 'ts-loader',
@@ -43,6 +55,7 @@ module.exports = (env) => {
                 },
                 {
                     test: /\.(svg|png|jpg|gif)$/,
+                    exclude: /node_modules/,
                     use: {
                         loader: "file-loader",
                         options: {
