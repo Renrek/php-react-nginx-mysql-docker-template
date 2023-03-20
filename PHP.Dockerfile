@@ -1,4 +1,8 @@
+FROM node:latest AS node
+
 FROM php:fpm
+
+COPY --from=node / /
 
 # Install packages
 RUN apt-get update

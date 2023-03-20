@@ -28,8 +28,4 @@ Why make a framework when there are so may good options out there? My reason to 
 1. In a a separate terminal within project root use command `./init.sh`
 
 ## Investigate
-1. If File structure secure.
 1. OPcache, psalm performance boost
-
-## Issues
-1. Will render on 127.0.0.1 but not local host. Will start by looking into Docker/Nginx

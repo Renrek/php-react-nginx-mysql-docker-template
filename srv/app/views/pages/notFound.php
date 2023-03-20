@@ -1,7 +1,9 @@
 <?php require APP_ROOT . '/views/include/header.php' ?>
     <div class="container-lg">
-        <h1 class="text-primary"><?= $data['title']; ?></h1>
-        <div id="target">Hit me!</div>
+        
+        404. That’s an error.
+
+The requested URL /some/random/url was not found on this server. That’s all we know.
     </div>
     
    

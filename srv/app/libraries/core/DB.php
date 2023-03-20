@@ -5,9 +5,10 @@ namespace App\Libraries\Core;
 use App\Config\DatabaseConst;
 use PDO;
 
-Class DB {
+Class DB 
+{
 
-    public $pdo;
+    public PDO $pdo;
 
     public function __construct($options = [])
     {
@@ -25,7 +26,7 @@ Class DB {
             throw new \PDOException($e->getMessage(), (int)$e->getCode());
         }
     }
-    public function run($sql, $args = NULL)
+    public function run(string $sql, $args = NULL)
     {
         if (!$args)
         {
