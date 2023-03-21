@@ -14,7 +14,7 @@
 
         static function toNotFound() : void
         {
-            header('location: '. URL_ROOT. '/pages/not-found');
+            header('location: '. URL_ROOT. '/not-found');
         }
 
         static function toController(string $class, ?string $method): void

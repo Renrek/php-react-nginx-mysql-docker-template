@@ -17,11 +17,11 @@
         // view figure out a way to dynamically add js scripts based on what is in /srv/public/js
         public function view(string $view, array $data = []) : void 
         {
-            if(file_exists('../app/views/'. $view . '.php')){
+            if(file_exists('../app/views/pages/'. $view . '.php')){
                 //$listOFiles = scandir('/srv/public/js');
                 //var_dump($listOFiles);
                 $scripts = '<script src="/js/main.js"></script>';
-                require_once '../app/views/'. $view . '.php';
+                require_once '../app/views/pages/'. $view . '.php';
             } else {
                 die('View does not exist');
             }

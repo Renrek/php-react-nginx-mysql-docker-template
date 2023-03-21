@@ -5,7 +5,7 @@
     use App\Libraries\Core\Controller;
     use App\Libraries\Helpers\Redirect;
 
-    class Pages extends Controller {
+    class Home extends Controller {
 
         public function __construct(){
             
@@ -19,16 +19,7 @@
                 'title' => 'My title',
             ];
             
-            $this->view('pages/index', $data);
+            $this->view('home/index', $data);
         }
 
-        public function about(): void 
-        {
-            $this->view('pages/about');
-        }
-
-        public function notFound(): void
-        {
-            $this->view('pages/notFound');
-        }
     }
