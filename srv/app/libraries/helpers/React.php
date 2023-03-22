@@ -6,12 +6,14 @@ namespace App\Libraries\Helpers;
 final class React
 {
     private string $componentName;
-    private array $data;
+    private array $data = [];
 
 
     public function __construct(string $componentName, array $data = []){
         $this->componentName = $componentName;
-        $this->data = $data;
+        if (!empty($data)){
+            $this->data = $data;
+        }
     }
 
     public function generateEntry() :string {

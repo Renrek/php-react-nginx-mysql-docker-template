@@ -16,19 +16,18 @@ class Home extends Controller {
     }
 
     public function index(): void 
-    {
-        $test = $_SERVER['REQUEST_METHOD'] ?? null;
-        $stuff = ['tis' => 'one', 'echo' => 'who'];
-        $numberComponent = new React('number', $stuff);
-        $numberComponent = $numberComponent->generateEntry();
+    {   //$user = new User(1);
+        //$test = $_SERVER['REQUEST_METHOD'] ?? null;
+        $loginElement = new React('login');
+
         $data = [
             'title' => 'My title',
-            'numberComponent' => $numberComponent,
+            'loginElement' => $loginElement->generateEntry(),
         ];
         
         $this->view('home/index', $data);
 
-        $user = new User(1);
+        
     }
 
 }
