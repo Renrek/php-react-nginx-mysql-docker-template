@@ -1,8 +1,6 @@
 import "./component.loader";
 import "./main.scss";
 //import bootstrap from 'bootstrap';
-import "./views/pages/index";
+import "./componants/numbers/index";
 
-
-console.log('In main.entry.tsx');
 

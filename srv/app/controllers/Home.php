@@ -1,25 +1,34 @@
 <?php declare(strict_types=1);
 
-    namespace App\Controllers;
+namespace App\Controllers;
 
-    use App\Libraries\Core\Controller;
-    use App\Libraries\Helpers\Redirect;
+use App\Libraries\Core\Controller;
+use App\Libraries\Helpers\Redirect;
+use App\Libraries\Helpers\React;
 
-    class Home extends Controller {
+//temp
+use App\Models\User;
 
-        public function __construct(){
-            
-        }
+class Home extends Controller {
 
-        public function index(): void 
-        {
-            $test = $_SERVER['REQUEST_METHOD'] ?? null;
-            
-            $data = [
-                'title' => 'My title',
-            ];
-            
-            $this->view('home/index', $data);
-        }
-
+    public function __construct(){
+        
     }
+
+    public function index(): void 
+    {
+        $test = $_SERVER['REQUEST_METHOD'] ?? null;
+        $stuff = ['tis' => 'one', 'echo' => 'who'];
+        $numberComponent = new React('number', $stuff);
+        $numberComponent = $numberComponent->generateEntry();
+        $data = [
+            'title' => 'My title',
+            'numberComponent' => $numberComponent,
+        ];
+        
+        $this->view('home/index', $data);
+
+        $user = new User(1);
+    }
+
+}

@@ -9,3 +9,5 @@ srv/app/libraries/vendors/
 css/
 
 js/
+
+*.sql
