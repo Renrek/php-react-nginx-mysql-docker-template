@@ -23,7 +23,6 @@ Class Router
     public function __construct(){
 
         $this->setUri();
-        
         if($this->uri[0] === 'api'){
             $this->loadApi();
         } else {
