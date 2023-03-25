@@ -2,21 +2,26 @@
 
     namespace App\Libraries\Core;
 
+    use stdClass;
+
     abstract class Controller
     {
+
+        public function __construct(){       
+        }
         //abstract public function index() : void;
 
-        // require and return model object
-        // this needs to be moved to a BaseService controller
-        public function model(string $model) : object 
-        {
-            require_once '../app/models/'. $model . '.php';
-            return new $model();
-        }
+        // view figure out a way to dynamically add js scripts based on what is in /srv/public/js by scanning directory due to cache busting
 
-        // view figure out a way to dynamically add js scripts based on what is in /srv/public/js
-        public function view(string $view, array $data = []) : void 
+        //TODO accept string and object
+
+        //TODO header and footer requests here.
+        public function view(string $view, object|null $data = null) : void 
         {
+            if(!isset($data)){
+                $data = new stdClass();
+            }
+            
             if(file_exists('../app/views/pages/'. $view . '.php')){
                 //$listOFiles = scandir('/srv/public/js');
                 //var_dump($listOFiles);

@@ -3,7 +3,7 @@
 namespace App\Libraries\Core;
 
 use App\Config\RouterConst;
-use App\Libraries\Helpers\Redirect;
+use App\Helpers\RedirectHelper;
 
 // Takes the submitted url and uses it to control the framework
 
@@ -16,7 +16,9 @@ use App\Libraries\Helpers\Redirect;
 Class Router 
 {
     private array $uri = []; 
-    private string $class = RouterConst::CONTROLLER_NAMESPACE . RouterConst::DEFAULT_CONTROLLER;
+    private string $class = RouterConst::CONTROLLER_NAMESPACE
+        . RouterConst::DEFAULT_CONTROLLER_PREFIX 
+        . RouterConst::CONTROLLER_SUFFIX;
     private string $method = RouterConst::DEFAULT_CONTROLLER_METHOD;
     private array $params = [];
 
@@ -44,14 +46,19 @@ Class Router
             return;
         }
 
-        $file = RouterConst::CONTROLLERS_PATH . ucwords($this->uri[0]) . '.php';
+        $file = RouterConst::CONTROLLERS_PATH 
+            . ucwords($this->uri[0]) 
+            . RouterConst::CONTROLLER_SUFFIX . '.php';
 
         // Sanitize controller file path
         if (!realpath($file)){
-            Redirect::toNotFound();
+            RedirectHelper::sendToNotFound();
         } 
 
-        $this->class = RouterConst::CONTROLLER_NAMESPACE . ucwords($this->uri[0]);
+        $this->class = RouterConst::CONTROLLER_NAMESPACE 
+            . ucwords($this->uri[0]) 
+            . RouterConst::CONTROLLER_SUFFIX;
+
         unset($this->uri[0]);
 
         // All Controllers must have index method by default
@@ -63,7 +70,7 @@ Class Router
 
         // If a method was provided but does not exists show not found
         if (!method_exists(new $this->class, $this->method)){
-            Redirect::toNotFound();
+            RedirectHelper::sendToNotFound();
         }
         
         // Anything remaining in the array is used as params
@@ -73,7 +80,7 @@ Class Router
         if (str_starts_with($file, RouterConst::CONTROLLERS_PATH)){
             $this->callController();
         } else {
-            Redirect::toNotFound();
+            RedirectHelper::sendToNotFound();
         }
         
     }

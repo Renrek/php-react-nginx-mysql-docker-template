@@ -1,25 +1,25 @@
 <?php declare(strict_types=1);
 
-namespace App\Libraries\Helpers;
+namespace App\Helpers;
 
 use App\Config\RouterConst;
 
-final class Redirect
+final class RedirectHelper
 {
     
-    static function toHome() : void 
+    static function sendToHome() : void 
     {
         header('location: '. URL_ROOT);
     }
 
-    static function toNotFound() : void
+    static function sendToNotFound() : void
     {
         header('location: '. URL_ROOT. '/not-found');
     }
 
-    static function toController(string $class, ?string $method): void
+    static function sendToController(string $class, ?string $method): void
     {
-        // TODO consider including params
+        // TODO consider including params ***REDO THIS **
         // TO Think on, would call_user_func_array be better?
         $suffix = $method ? '/' . $method : '';
         header('location: '. URL_ROOT . '/'. $class . $suffix);

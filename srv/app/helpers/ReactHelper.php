@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Libraries\Helpers;
+namespace App\Helpers;
 
 
-final class React
+final class ReactHelper
 {
     private string $componentName;
     private array $data = [];
