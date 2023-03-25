@@ -6,7 +6,7 @@ Why make a framework when there are so may good options out there? My reason to 
 
 ## Why do it from scratch when there is X available?
 
-Truth is if I was creating a true production project I would likely use Doctrine instead of the hand crafted Model system, or Latte templates instead of the Ol'<?= ?>. I am doing it this way to roll up my sleeves and get into the fine details of the matter for a better understanding.
+Truth is if I was creating a true production project I would likely use Doctrine instead of the hand crafted Model system, or Latte templates instead of the Ol'`<?= ?>`. I am doing it this way to roll up my sleeves and get into the fine details of the matter for a better understanding.
 
 ## Stack Features
 - Docker

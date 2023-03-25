@@ -22,16 +22,6 @@ class HomeController extends Controller {
         
         $loginElement = new ReactHelper('login');
 
-        $user = new UserModel();
-        // $user->lookupById(id: 1);
-        $user->getByPrimaryKey(1);
-        // $user->email =  'adam.savage@mail.com';
-        // $user->firstName = 'Adam';
-        // $user->lastName = 'Savage';
-        // $user->passwordHash = password_hash('secret', PASSWORD_DEFAULT);
-        var_dump($user);
-        $user->save();
-
         $data = new stdClass();
         $data->title = 'Welcome';
         $data->loginElement = $loginElement->generateEntry();

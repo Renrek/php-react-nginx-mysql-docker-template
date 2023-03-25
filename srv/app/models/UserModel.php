@@ -14,7 +14,7 @@ class UserModel extends Model
         parent::__construct();
         $this->table = 'user';
         $this->primaryKey = 'id';
-        $this->fields = ['id', 'email', 'firstName', 'lastName', 'passwordHash', 'createdAt', 'updatedAt'];
+        $this->fields = ['id', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt'];
     }
 
     public function lookupByEmail(string $email) : void

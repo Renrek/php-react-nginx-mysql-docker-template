@@ -5,7 +5,6 @@ namespace App\Libraries\Core;
 use App\Config\DatabaseConst;
 use App\Libraries\Core\DB;
 use AllowDynamicProperties;
-use property_exists;
 
 #[AllowDynamicProperties]
  class Model {
@@ -28,13 +27,14 @@ use property_exists;
     }
     public function save() : void {
         $primaryKey = $this->primaryKey;
-        //use this to validate.
-        //property_exists(__CLASS__, 'name');
         $statement = 'UPDATE '.$this->table.' SET '.$this->updateFields().' WHERE '.$this->primaryKey.' = '.$this->$primaryKey;
-        var_dump($statement);
+        $this->db->run($statement, $this->updateValues());
     }
 
-    public function remove() : void {}
+    public function remove(int $primaryKey) : void { // May want to convert this to soft delete.
+        $statement = 'DELETE FROM '.$this->table.' WHERE '.$this->primaryKey.' = ?';
+        $this->db->run($statement, $primaryKey);
+    }
 
     public function getByPrimaryKey(int $primaryKey): void {
 
@@ -58,5 +58,16 @@ use property_exists;
         return implode(' = ?, ', $fields) . ' = ?';
     }
 
-    
+    protected function updateValues(): array {
+        $values = [];
+        $fields = $this->fields;
+        $key = array_search($this->primaryKey, $fields);
+        if($key !== false){
+            unset($fields[$key]);
+        }
+        foreach ($fields as $value) {
+            $values[] = $this->$value;
+        }
+        return $values;
+    }
 }
