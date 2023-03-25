@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-final class Authentication extends Service {
+final class AuthenticationService extends Service {
     
     private string $userEmail;
 

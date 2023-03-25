@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Libraries\Core\Controller;
 use App\Libraries\Helpers\Redirect;
 
-class NotFound extends Controller {
+class NotFoundController extends Controller {
 
     public function __construct(){
         
@@ -18,8 +18,8 @@ class NotFound extends Controller {
         $data = [
             'title' => 'My title',
         ];
-        
-        $this->view('notFound/index', $data);
+    
+        $this->view('notFound/index');
     }
 
 }

@@ -4,5 +4,5 @@
 
     class Api
     {
-        
+        //$test = $_SERVER['REQUEST_METHOD'] ?? null;
     }
