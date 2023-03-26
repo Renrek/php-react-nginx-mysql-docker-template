@@ -3,7 +3,7 @@
     namespace App\Libraries\Core;
 
     use App\Helpers\RedirectHelper;
-    use stdClass;
+    
     use str_starts_with;
     use str_ends_with;
 
@@ -12,7 +12,7 @@
         protected string $header = 'header.php';
         protected string $footer = 'footer.php';
         protected string $title = SITE_NAME;
-        protected string $view;//rename
+        protected string $view;
         protected object $data;
 
         public function __construct(){  
