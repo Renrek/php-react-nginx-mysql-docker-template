@@ -8,9 +8,9 @@ use App\Libraries\Core\DB;
 
 class UserModel extends Model
 { 
-    public function __construct()
+    public function __construct(DB $db)
     {
-        $this->db = new DB();
+        $this->db = $db;
         $this->table = 'user';
         $this->primaryKey = 'id';
         $this->publicFields = ['id', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt'];

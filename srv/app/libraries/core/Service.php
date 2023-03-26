@@ -2,8 +2,7 @@
 
 namespace App\Service;
 
-
-abstract class Service {
+class Service {
     
     public function __construct() {
         

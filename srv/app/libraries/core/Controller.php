@@ -28,12 +28,14 @@
                 $footerPath = APP_ROOT . '/views/include/'.$this->footer;
                 $view = $this->view;
                 [$scripts, $styles] = $this->lookupAssets();
-                require_once '../app/views/layout.php';
+                require_once '/srv/app/views/layout.php';
             } else {
-                RedirectHelper::sendToNotFound; //TODO needs love
+                RedirectHelper::sendToNotFound(); //TODO needs love
             }
         }
 
+        // If load times ever get passed 500ms this will be a good candidate for 
+        // including within a build-step
         private function lookupAssets(): array {
             $scripts = '';
             $styles = '';
