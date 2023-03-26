@@ -21,6 +21,12 @@ Truth is if I was creating a true production project I would likely use Doctrine
 - Webpack
 - React
 
+## Critical ToDos
+- Add proper error handling
+- Add full Auth and Session
+- Add CRSF prevention system
+- Add API (RESTful)
+
 ## Future Tasks
 - CLI Command tool to streamline host to container commands.
 - Websocket

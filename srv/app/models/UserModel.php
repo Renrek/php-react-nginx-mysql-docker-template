@@ -4,26 +4,23 @@ namespace App\Models;
 
 
 use App\Libraries\Core\Model;
-
+use App\Libraries\Core\DB;
 
 class UserModel extends Model
 { 
-    
     public function __construct()
     {
-        parent::__construct();
+        $this->db = new DB();
         $this->table = 'user';
         $this->primaryKey = 'id';
-        $this->fields = ['id', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt'];
+        $this->publicFields = ['id', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt'];
     }
 
-    public function lookupByEmail(string $email) : void
+    public function getAllByEmail(string $email) : array
     {   
-        $statement = 'SELECT id, email, firstName, lastName, passwordHash FROM '.$this->table.' WHERE email = ?';
-        $thing = $this->db->run($statement, [$email])->fetch();
+        $statement = $this->selectPrefix() . 'WHERE email = ?';
+        return $this->db->run($statement, [$email])->fetchAll();
     }
-
-    
 }
 
 

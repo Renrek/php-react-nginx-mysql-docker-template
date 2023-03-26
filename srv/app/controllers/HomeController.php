@@ -5,27 +5,18 @@ namespace App\Controllers;
 use App\Libraries\Core\Controller;
 use App\Helpers\RedirectHelper;
 use App\Helpers\ReactHelper;
-use stdClass;
-
-//temp for testing
-use App\Models\UserModel;
-use App\Models\UserStruct;
 
 class HomeController extends Controller {
 
-    public function __construct(){
-    }
-
     public function index(): void 
     {   
-        
+        $this->view = 'home/index';
+        $this->title .= ' - Welcome';
         
         $loginElement = new ReactHelper('login');
+        $this->data->loginElement = $loginElement->generateEntry();
+        $this->data->header = "Header Text";
 
-        $data = new stdClass();
-        $data->title = 'Welcome';
-        $data->loginElement = $loginElement->generateEntry();
-
-        $this->view('home/index', $data);
+        $this->render();
     }
 }

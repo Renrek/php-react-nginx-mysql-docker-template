@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Libraries\Core\Controller;
-use App\Libraries\Helpers\Redirect;
+
 
 class NotFoundController extends Controller {
 
@@ -13,12 +13,13 @@ class NotFoundController extends Controller {
 
     public function index(): void 
     {
-        $test = $_SERVER['REQUEST_METHOD'] ?? null;
+        //$test = $_SERVER['REQUEST_METHOD'] ?? null;
         
         $data = [
             'title' => 'My title',
         ];
-    
+        // need to change how this works, end up to this controller with out changing url and redirect.
+        //http_response_code(404);
         $this->view('notFound/index');
     }
 
