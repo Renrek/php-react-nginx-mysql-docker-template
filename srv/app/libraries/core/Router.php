@@ -34,8 +34,33 @@ Class Router
 
     private function loadApi(){
         // Remove 'api' from path
-        unset($this->uri[0]);
-        // build this out more
+        array_shift($this->uri);
+        if (empty($this->uri)){
+            http_response_code(404);
+            die();
+        }
+        $this->class = $this->uri[0];
+        array_shit($this->uri);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($this->uri[1])){
+            $this->method = 'get';
+        } else {
+            // If no id is provided run basic requests
+            $this->method = match ($_SERVER['REQUEST_METHOD']){
+                'GET' => 'list',
+                'POST' => 'create',
+                'PUT' => 'update',
+                'DELETE' => 'delete',
+            };
+        }
+        //var_dump($method);
+        call_user_func_array(
+            [new \App\Api\UsersApi, $this->method], 
+            []
+        );
+
+
+        // $test = $_SERVER['REQUEST_METHOD'] ?? null;
+        // var_dump($test);
     }
 
     private function loadController(){
