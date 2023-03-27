@@ -6,8 +6,6 @@ srv/app/libraries/vendors/
 
 .phpunit.result.cache
 
-css/
-
-js/
+assets/
 
 *.sql
