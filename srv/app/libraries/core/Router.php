@@ -4,6 +4,7 @@ namespace App\Libraries\Core;
 
 use App\Config\RouterConst;
 use App\Helpers\RedirectHelper;
+use http_response_code;
 
 // Takes the submitted url and uses it to control the framework
 
@@ -35,13 +36,43 @@ Class Router
     private function loadApi(){
         // Remove 'api' from path
         array_shift($this->uri);
+
+        // Remove 'rest' from path after validation
+        if ($this->uri[0] !== 'rest'){
+            http_response_code(404);
+            die();
+        } 
+        array_shift($this->uri);
+
+        // Remove 'v1' from path after validation
+        if ($this->uri[0] !== 'v1'){
+            http_response_code(404);
+            die();
+        } 
+        array_shift($this->uri);
+
+        // Make sure there is something left to process
         if (empty($this->uri)){
             http_response_code(404);
             die();
         }
-        $this->class = $this->uri[0];
-        array_shit($this->uri);
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($this->uri[1])){
+
+        $file = RouterConst::API_PATH 
+            .ucwords($this->uri[0])
+            .RouterConst::API_SUFFIX . '.php';
+
+        if (!realpath($file)){
+            http_response_code(404);
+            die();
+        }
+
+        $this->class = RouterConst::API_NAMESPACE
+        .ucwords($this->uri[0])
+        .RouterConst::API_SUFFIX;
+
+        array_shift($this->uri);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($this->uri[0])){
             $this->method = 'get';
         } else {
             // If no id is provided run basic requests
@@ -52,15 +83,8 @@ Class Router
                 'DELETE' => 'delete',
             };
         }
-        //var_dump($method);
-        call_user_func_array(
-            [new \App\Api\UsersApi, $this->method], 
-            []
-        );
-
-
-        // $test = $_SERVER['REQUEST_METHOD'] ?? null;
-        // var_dump($test);
+        
+        call_user_func_array([new $this->class, $this->method], [$this->uri]);
     }
 
     private function loadController(){
