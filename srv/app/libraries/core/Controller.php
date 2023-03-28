@@ -7,7 +7,7 @@
     use str_starts_with;
     use str_ends_with;
 
-    abstract class Controller
+    class Controller
     {
         protected string $header = 'header.php';
         protected string $footer = 'footer.php';
