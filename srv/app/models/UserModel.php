@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use App\Libraries\Core\Model;
 use App\Libraries\Core\DB;
 
@@ -16,13 +15,9 @@ class UserModel extends Model
         $this->publicFields = ['id', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt'];
     }
 
-    public function getAllByEmail(string $email) : array
+    public function getAll() : array
     {   
-        $statement = $this->selectPrefix() . 'WHERE email = ?';
-        return $this->db->run($statement, [$email])->fetchAll();
+        $statement = $this->selectPrefix();
+        return $this->db->run($statement, [])->fetchAll();
     }
 }
-
-
-
- 
