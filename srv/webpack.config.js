@@ -8,19 +8,42 @@ module.exports = (env) => {
     const isDevelopment = (env.development !== undefined);
 
     
-    // Note: js files are "cleaned" but css is not
+    
     const plugins = isProduction ? [
-        new MiniCssExtractPlugin({filename: "../css/[name].[contenthash].css"})
+        new MiniCssExtractPlugin({filename: "[name].[contenthash].css"})
     ] : [];
 
-    const optimization = isProduction ? { minimizer: [new TerserPlugin()]} : {};
+    const optimization = isProduction ? { 
+        minimizer: [new TerserPlugin()],
+        splitChunks: {
+            chunks: 'async',
+            minSize: 20000,
+            minRemainingSize: 0,
+            minChunks: 1,
+            maxAsyncRequests: 30,
+            maxInitialRequests: 30,
+            enforceSizeThreshold: 50000,
+            cacheGroups: {
+                defaultVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                    reuseExistingChunk: true,
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true,
+                },
+            },
+        },
+    } : {};
     
     return {
         mode: isProduction ? "production" : "development",
         entry: "./src/main.entry.tsx",
         output: {
             filename: isProduction ? "[name].[contenthash].js" : "[name].js",
-            path: path.resolve(__dirname, "public/js"),
+            path: path.resolve(__dirname, "public/assets"),
             clean: true,
         },
         //optimization: isProduction ? { minimizer: [new OptimizeCssAssetsPlugin]} // optimize-css-assets-webpack-plugin

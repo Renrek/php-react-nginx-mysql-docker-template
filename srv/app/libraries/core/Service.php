@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Libraries\Core;
 
-
-abstract class Service {
+class Service {
     
     public function __construct() {
         

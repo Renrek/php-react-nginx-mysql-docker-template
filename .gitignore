@@ -5,7 +5,6 @@ dist/
 srv/app/libraries/vendors/
 
 .phpunit.result.cache
-
 assets/
 
 *.sql
