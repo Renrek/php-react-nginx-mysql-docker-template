@@ -1,4 +1,2 @@
-<?php 
-    require_once '../app/Bootstrap.php';
-    use App\Libraries\Core\Router;
-    $init = new Router; 
+<?php declare(strict_types=1);
+    require_once '../init.php';
