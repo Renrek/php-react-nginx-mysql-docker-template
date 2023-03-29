@@ -2,7 +2,7 @@
 
 namespace App\Config;
 
-class AppConst
+final class AppConst
 { 
     const APP_ROOT = '/srv/app/';
     const URL_ROOT = 'http://localhost';

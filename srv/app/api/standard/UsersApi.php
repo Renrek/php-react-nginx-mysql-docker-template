@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Api;
+namespace App\Api\Standard;
 
 use App\Libraries\Core\Api;
 use App\Services\UserRelationshipServices;
@@ -8,7 +8,7 @@ use App\Services\UserRelationshipServices;
 class UsersApi extends Api {
 
   public function __construct(){
-    
+   
   }
 
   public function list(): void {
@@ -35,7 +35,7 @@ class UsersApi extends Api {
   public function create(): void {
     $data = (object) [
       'test' => 'create',
-      'number' => 23,
+      'number' => 2399,
     ];
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");

@@ -2,7 +2,7 @@
 
 namespace App\Config;
 
-class ResponseConst
+final class ResponseConst
 { 
     const OK = 200;
     const CREATED = 201;

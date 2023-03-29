@@ -11,8 +11,12 @@ use http_response_code;
 // Webpage Example: domain.com/controller/method/param/param/param/
 // [ controller, method, param, param, param, param, ... ]
 
-// REST API Example: domain.com/api/thing/3/subThing/4/subSubThing/5
-// [ 'api', object, objectId, childObject, childObjectId, grandChildObject, grandChildObjectId, ...]
+// Standard REST API Example: domain.com/api/thing/3/subThing/4/subSubThing/5
+// [ 'api', object, objectId, childObject, childObjectId, ...]
+// localhost/api/v1/rest/users/
+
+// Custom API
+// localhost/api/v1/custom/class/method
     
 Class Router 
 {
@@ -34,14 +38,8 @@ Class Router
     }
 
     private function loadApi(){
+        $isStandardApi = false;
         // Remove 'api' from path
-        array_shift($this->uri);
-
-        // Remove 'rest' from path after validation
-        if ($this->uri[0] !== 'rest'){
-            http_response_code(404);
-            die();
-        } 
         array_shift($this->uri);
 
         // Remove 'v1' from path after validation
@@ -51,39 +49,59 @@ Class Router
         } 
         array_shift($this->uri);
 
+        // Remove 'rest' or 'custom' from path after validation
+        if ($this->uri[0] === 'rest') {
+            $isStandardApi = true;
+        } else if ($this->uri[0] !== 'custom'){
+            http_response_code(404);
+            die();
+        }
+        array_shift($this->uri);
+
         // Make sure there is something left to process
         if (empty($this->uri)){
             http_response_code(404);
             die();
         }
 
-        $file = RouterConst::API_PATH 
-            .ucwords($this->uri[0])
-            .RouterConst::API_SUFFIX . '.php';
+        $file = $isStandardApi 
+            ? RouterConst::STANDARD_API_PATH 
+            : RouterConst::CUSTOM_API_PATH;
 
+        $file .= ucwords($this->uri[0]) . RouterConst::API_SUFFIX . '.php';
+        
         if (!realpath($file)){
             http_response_code(404);
-            die();
+            die('No Go');
         }
+        
+        $this->class = $isStandardApi 
+            ? RouterConst::STANDARD_API_NAMESPACE 
+            : RouterConst::CUSTOM_API_NAMESPACE;
 
-        $this->class = RouterConst::API_NAMESPACE
-        .ucwords($this->uri[0])
-        .RouterConst::API_SUFFIX;
+        $this->class .= ucwords($this->uri[0]) . RouterConst::API_SUFFIX;
 
         array_shift($this->uri);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($this->uri[0])){
-            $this->method = 'get';
+        if($isStandardApi){
+            
+            if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($this->uri[0])){
+                $this->method = 'get';
+            } else { 
+                // If no id is provided run basic requests 
+                $this->method = match ($_SERVER['REQUEST_METHOD']){
+                    'GET' => 'list',
+                    'POST' => 'create',
+                    'PUT' => 'update',
+                    'DELETE' => 'delete',
+                };
+            }
+
         } else {
-            // If no id is provided run basic requests
-            $this->method = match ($_SERVER['REQUEST_METHOD']){
-                'GET' => 'list',
-                'POST' => 'create',
-                'PUT' => 'update',
-                'DELETE' => 'delete',
-            };
+            $this->method = $this->uri[0];
+            array_shift($this->uri);
         }
-        
+
         call_user_func_array([new $this->class, $this->method], [$this->uri]);
     }
 

@@ -20,7 +20,7 @@
 
         protected function response($code, $data){
             $payload = json_encode($data);
-            http_response_code(200);
+            http_response_code($code);
             echo $payload;
         }
 

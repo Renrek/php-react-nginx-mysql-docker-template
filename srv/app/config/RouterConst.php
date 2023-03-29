@@ -13,8 +13,10 @@ final class RouterConst
     const CONTROLLER_NAMESPACE = 'App\\Controllers\\';
     const CONTROLLER_SUFFIX = 'Controller';
     
-    const API_PATH = '/srv/app/api/';
-    const API_NAMESPACE = 'App\\Api\\';
-    CONST API_SUFFIX = 'Api';
+    const STANDARD_API_PATH = '/srv/app/api/standard/';
+    const CUSTOM_API_PATH = '/srv/app/api/custom/';
+    const STANDARD_API_NAMESPACE = 'App\\Api\\Standard\\';
+    const CUSTOM_API_NAMESPACE = 'App\\Api\\Custom\\';
+    const API_SUFFIX = 'Api';
 }
  
