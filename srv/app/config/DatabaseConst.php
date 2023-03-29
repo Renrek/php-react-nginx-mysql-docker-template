@@ -2,7 +2,7 @@
 
 namespace App\Config;
 
-class DatabaseConst
+final class DatabaseConst
 { // setup to fetch by env
     const HOST = 'mysql';
     const USER = 'template';
