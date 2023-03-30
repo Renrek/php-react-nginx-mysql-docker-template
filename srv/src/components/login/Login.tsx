@@ -20,14 +20,17 @@ const Login : React.FC<{}> = props => {
             body: JSON.stringify(data)
         })
         .then(response => response.json())
-        .then(data => window.location.reload())
+        .then(data => {
+            console.log(data);
+            
+            //window.location.reload()
+        })
         .catch(error => console.log(error));
     }
 
     return <form style={{width: '200px'}} >   
         <label className='form-label mt-2' htmlFor="email-input">Email</label>
         <input
-            required
             className='form-control'
             value={email}
             type="email"

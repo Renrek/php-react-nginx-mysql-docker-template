@@ -15,7 +15,7 @@ class UserRelationshipServices extends Service {
 
     public function getUsers(){
         $db = new DB();
-        $users = new UserModel($db);
+        $users = new UserModel();
         return $users->getAll();
     }
 }

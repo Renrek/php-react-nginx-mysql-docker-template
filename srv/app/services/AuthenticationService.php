@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Services;
 
 use App\Libraries\Core\Service; 
+use App\Models\UserModel;
 
 final class AuthenticationService extends Service {
     
@@ -22,8 +23,9 @@ final class AuthenticationService extends Service {
 
     public function verifyPassword(string $password) : bool
     {
-        $userHash = ''; //DB lookup for userhash in table
-        return password_verify($password, $userHash);
+        $userModel = new UserModel();
+        $user = $userModel->getByEmail($this->userEmail);
+        return password_verify($password, $user->passwordHash);
     }
 
     // May go into another home.
