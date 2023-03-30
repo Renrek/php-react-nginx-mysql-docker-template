@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Libraries\Core\Service; 
+
 final class AuthenticationService extends Service {
     
     private string $userEmail;
@@ -23,4 +25,13 @@ final class AuthenticationService extends Service {
         $userHash = ''; //DB lookup for userhash in table
         return password_verify($password, $userHash);
     }
+
+    // May go into another home.
+    //   function isLoggedIn(){
+//     if(isset($_SESSION['userId'])){
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
 }

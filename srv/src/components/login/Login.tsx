@@ -8,7 +8,23 @@ const Login : React.FC<{}> = props => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
-    return <form style={{width: '200px'}}>   
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
+        const data = {
+            "email": email,
+            "password": password,
+        }
+        await fetch('/api/v1/custom/login/verify', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => window.location.reload())
+        .catch(error => console.log(error));
+    }
+
+    return <form style={{width: '200px'}} >   
         <label className='form-label mt-2' htmlFor="email-input">Email</label>
         <input
             required
@@ -32,12 +48,29 @@ const Login : React.FC<{}> = props => {
         <button 
             type='submit'
             className='btn btn-primary mt-2'
+            onClick={handleSubmit}
         >
             Login
         </button>
     </form>;
 }
 
-registerComponent('login', (element)=> {
-    ReactDOMClient.createRoot(element).render(<Login />);
+const LoggedIn : React.FC<{}> = props => {
+
+    const handleClick = async () => {
+        await fetch('/api/v1/custom/login/logOut', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+        })
+        .then(() => window.location.reload())
+        .catch(error => console.log(error));
+    }
+    return <><button onClick={handleClick}>Log Out</button></>
+}
+
+registerComponent('login', (element, parameters )=> {
+    const { loggedIn } = parameters;
+    const component = loggedIn ? <LoggedIn /> : <Login />
+    
+    ReactDOMClient.createRoot(element).render(component);
 });
