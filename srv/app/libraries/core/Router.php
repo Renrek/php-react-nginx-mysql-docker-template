@@ -2,9 +2,10 @@
 
 namespace App\Libraries\Core;
 
-use App\Config\RouterConst;
+
 use App\Helpers\RedirectHelper;
 use http_response_code;
+use App\Config\RouterConst;
 
 // Takes the submitted url and uses it to control the framework
 
@@ -13,12 +14,12 @@ use http_response_code;
 
 // Standard REST API Example: domain.com/api/thing/3/subThing/4/subSubThing/5
 // [ 'api', object, objectId, childObject, childObjectId, ...]
-// localhost/api/v1/rest/users/
+// localhost/api/v1/rest/users/42
 
 // Custom API
 // localhost/api/v1/custom/class/method
     
-Class Router 
+Class Router
 {
     private array $uri = []; 
     private string $class = RouterConst::CONTROLLER_NAMESPACE
@@ -72,7 +73,7 @@ Class Router
         
         if (!realpath($file)){
             http_response_code(404);
-            die('No Go');
+            die();
         }
         
         $this->class = $isStandardApi 
@@ -98,8 +99,15 @@ Class Router
             }
 
         } else {
-            $this->method = $this->uri[0];
-            array_shift($this->uri);
+
+            if (!empty($this->uri[0])){
+                $this->method = $this->uri[0];
+                array_shift($this->uri);
+            } else {
+                http_response_code(404);
+                die();
+            }
+            
         }
 
         call_user_func_array([new $this->class, $this->method], [$this->uri]);
