@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Libraries\Core;
+namespace App\Libraries\Routing;
 
-use App\Routes\RouteInterface;
-use App\Libraries\Core\RequestParser;
+use App\Libraries\Routing\RouteInterface;
+use App\Libraries\Routing\RequestParser;
 
 final class Router {
 
@@ -15,12 +15,17 @@ final class Router {
         private RouteInterface $route, 
         private RequestParser $requestParser
     ){
+
         $requestPath = $this->requestParser->getPath();
+        $requestMethod = $this->requestParser->getMethod();
+
         [$this->class, $this->method, $this->params] = 
-            $this->route->getRoute($requestPath);
-        //var_dump($this->class); die();
+            $this->route->generate($requestPath, $requestMethod);
+        
         $this->class = $this->route->getNamespace() . $this->class;
+
         $this->callRoute();
+
     }
 
     private function callRoute(): void

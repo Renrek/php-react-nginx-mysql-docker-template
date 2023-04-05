@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Routes;
+namespace App\Libraries\Routing;
 
 interface RouteInterface {
 
@@ -10,8 +10,10 @@ interface RouteInterface {
 
     public function getNamespace(): string;
 
+    public function getAllowedRequestMethods(): array;
+
     public function getClassSuffix(): string;
 
-    public function getRoute(string $requestPath): array;
+    public function generate(string $requestPath, string $requestMethod): array;
 
 }

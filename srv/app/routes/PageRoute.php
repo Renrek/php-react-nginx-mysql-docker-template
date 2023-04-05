@@ -2,8 +2,7 @@
 
 namespace App\Routes;
 
-use App\Routes\RouteInterface;
-use App\Routes\RouteAbstract;
+use App\Libraries\Routing\RouteAbstract;
 
 class PageRoute extends RouteAbstract{
 
@@ -26,29 +25,32 @@ class PageRoute extends RouteAbstract{
         return 'Controller';
     }
 
+    public function getAllowedRequestMethods(): array {
+        return [ 'GET', 'POST'];
+    }
 
-    public function getRoute(string $requestPath): array {
-        //$requestPath = $this->stripUrlPrefix($requestPath);
-        $requestPath = rtrim(ltrim($requestPath, '/'));
-        $requestPath = filter_var($requestPath, FILTER_SANITIZE_URL);
-        $uri = explode('/', $requestPath);
-        //var_dump($uri); die();
+    public function generate(string $requestPath, string $requestMethod): array {
+
+        $this->validateRequestMethod($requestMethod);
+        
+        $uri = $this->getUri($requestPath);
+
         $rawClass = !empty($uri[0]) ? $uri[0] : self::DEFAULT_CONTROLLER;
         $class = $this->formatRequestElement($rawClass);
-        
         array_shift($uri);
-        $method = !empty($uri[0]) ? $uri[0] : self::DEFAULT_METHOD;
+
+        $rawMethod = !empty($uri[0]) ? $uri[0] : self::DEFAULT_METHOD;
+        $method = $this->formatRequestElement($rawMethod);
         array_shift($uri);
 
         $this->validateRequest($class, $method);
         $params = $uri;
-
         $class .= $this->getClassSuffix();
-        
+
         return [$class, $method, $params];
     }
 
     protected function handleNotFound () : void {
-        var_dump('shit! - not found'); die(); // TODO - change to proper handling
+        var_dump('shit! - not found - proper handling coming'); die();
     }
 }
