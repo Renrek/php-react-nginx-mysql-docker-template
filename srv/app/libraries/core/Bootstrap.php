@@ -3,19 +3,18 @@
 namespace App\Libraries\Core;
 
 use App\Config\AppConst;
-use App\Libraries\Core\Router;
 
 class Bootstrap {
 
     public function __construct(){
+        session_start();
         $this->classAutoLoaders();
         $this->loadGlobals();
     }
 
     public function loadSite(): void {
-        session_start();
+        
         //$this->checkAddress(); 
-        $router = new Router; 
     }
 
     private function classAutoLoaders(): void {

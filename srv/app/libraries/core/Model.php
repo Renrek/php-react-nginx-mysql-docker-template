@@ -9,7 +9,7 @@ use AllowDynamicProperties;
 
 // At the end of the day this may be better using a build step to get away from Dynamic Properties.
 #[AllowDynamicProperties]
- class Model {
+class Model {
     
     protected DB $db;
     protected string $table;

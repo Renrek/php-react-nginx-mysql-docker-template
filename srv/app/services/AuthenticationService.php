@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Libraries\Core\Service; 
 use App\Models\UserModel;
+use App\Attribute\DependencyInjector;
 
+//#[DependencyInjector]
 final class AuthenticationService extends Service {
     
     private string $userEmail;
