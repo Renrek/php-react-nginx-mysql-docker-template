@@ -36,11 +36,10 @@ class RestApiRoute extends RouteAbstract{
             $this->handleNotFound();
         }
 
-        $class = $this->formatRequestElement($uri[0]);
+        $class = $this->formatClassName($uri[0]);
         array_shift($uri);
-        
 
-        if ($requestMethod === 'GET' && !empty($this->uri[0])){
+        if ($requestMethod === 'GET' && !empty($uri[0])){
             $method = 'get';
         } else { 
             // If no id is provided run basic requests 

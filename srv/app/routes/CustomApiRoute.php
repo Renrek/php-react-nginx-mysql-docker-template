@@ -36,10 +36,10 @@ class CustomApiRoute extends RouteAbstract{
             $this->handleNotFound();
         }
 
-        $class = $this->formatRequestElement($uri[0]);
+        $class = $this->formatClassName($uri[0]);
         array_shift($uri);
         
-        $method = $this->formatRequestElement($uri[0]);
+        $method = $this->formatMethodName($uri[0]);
         array_shift($uri);
     
         $this->validateRequest($class, $method);

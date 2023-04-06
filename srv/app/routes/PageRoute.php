@@ -36,11 +36,11 @@ class PageRoute extends RouteAbstract{
         $uri = $this->getUri($requestPath);
 
         $rawClass = !empty($uri[0]) ? $uri[0] : self::DEFAULT_CONTROLLER;
-        $class = $this->formatRequestElement($rawClass);
+        $class = $this->formatClassName($rawClass);
         array_shift($uri);
 
         $rawMethod = !empty($uri[0]) ? $uri[0] : self::DEFAULT_METHOD;
-        $method = $this->formatRequestElement($rawMethod);
+        $method = $this->formatMethodName($rawMethod);
         array_shift($uri);
 
         $this->validateRequest($class, $method);

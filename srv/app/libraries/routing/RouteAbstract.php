@@ -8,9 +8,9 @@ abstract class RouteAbstract implements RouteInterface {
 
     abstract protected function handleNotFound () : void ;
 
-    protected function formatRequestElement (string $rawElement) : string {
+    protected function formatClassName (string $rawName) : string {
 
-        $classElements = explode('-', $rawElement);
+        $classElements = explode('-', $rawName);
 
         foreach ($classElements as $key => $value) {
             $classElements[$key] = \ucfirst($value);
@@ -18,6 +18,18 @@ abstract class RouteAbstract implements RouteInterface {
 
         return implode($classElements);
 
+    }
+
+    protected function formatMethodName(string $rawName) : string {
+    
+        $classElements = explode('-', $rawName);
+
+        foreach ($classElements as $key => $value) {
+            $classElements[$key] = \ucfirst($value);
+        }
+
+        return lcfirst(implode($classElements));
+      
     }
 
     protected function validateRequest( string $class, string $method ): void {
