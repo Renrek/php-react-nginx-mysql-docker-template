@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Libraries\Core\Controller;
 use App\Helpers\RedirectHelper;
 use App\Helpers\ReactHelper;
+use Exception;
 
 class HomeController extends Controller {
 
@@ -17,6 +18,8 @@ class HomeController extends Controller {
         } else {
             $loggedIn = false;
         }
+        //throw new Exception('boo');
+        //trigger_error('My special error', E_USER_ERROR);
         
         $this->view = 'home/index';
         $this->title .= ' - Welcome';

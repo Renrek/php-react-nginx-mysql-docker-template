@@ -3,7 +3,7 @@
     namespace App\Libraries\Core;
 
     use App\Helpers\RedirectHelper;
-    
+    use App\Exceptions\ViewNotFoundException;
     use str_starts_with;
     use str_ends_with;
 
@@ -30,7 +30,7 @@
                 [$scripts, $styles] = $this->lookupAssets();
                 require_once '/srv/app/views/layout.php';
             } else {
-                RedirectHelper::sendToNotFound(); //TODO needs love
+                throw new ViewNotFoundException();
             }
         }
 

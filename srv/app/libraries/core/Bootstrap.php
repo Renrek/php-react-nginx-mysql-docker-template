@@ -3,17 +3,25 @@
 namespace App\Libraries\Core;
 
 use App\Config\AppConst;
+use ErrorException;
+use Exception;
 
 class Bootstrap {
 
     public function __construct(){
-        session_start();
-        $this->classAutoLoaders();
-        $this->loadGlobals();
+        
+        
     }
 
-    public function loadSite(): void {
-        
+    public function init(): void {
+        session_start();
+        error_reporting(E_ALL);
+        $this->errorHandler();
+        //$this->exceptionHandler(); // Enable this in production
+        $this->classAutoLoaders();
+        $this->loadGlobals();
+        //throw new Exception('Bass Fishing');
+        //trigger_error('BaH');
         //$this->checkAddress(); 
     }
 
@@ -46,6 +54,28 @@ class Bootstrap {
         define('URL_ROOT', AppConst::URL_ROOT);
         define('SITE_NAME', AppConst::SITE_NAME);
     }
+
+    private function exceptionHandler(): void {
+        set_exception_handler(function(\Throwable $exception){
+            //$code = $exception->getCode();
+            //$code = ($code !== 404)? 500: 404;
+            //http_response_code($code);
+            
+            //var_dump($exception);
+        });
+    }
+
+    private function errorHandler(): void {
+        set_error_handler(function(
+            int $errno,
+            string $errstr,
+            string $errfile,
+            int $errline
+        ){
+            throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+        });
+    }
+
 
     // private function checkAddress(){
     //     if(array_key_exists('ipAddress',$_SESSION)){
