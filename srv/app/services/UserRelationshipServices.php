@@ -9,8 +9,15 @@ use App\Models\UserModel;
 
 class UserRelationshipServices extends Service {
 
-    public function __construct(){
-        
+    private DB $db;
+    public function __construct(
+       // DB $db,
+    ){
+       // $this->db = $db;
+    }
+
+    public function tempTest(){
+        var_dump('in here!');
     }
 
     public function getUsers(){
