@@ -7,22 +7,19 @@ use App\Libraries\Core\DB;
 use App\Models\UserModel;
 
 
+
 class UserRelationshipServices extends Service {
 
-    private DB $db;
+    
     public function __construct(
-       // DB $db,
+       private DB $db
     ){
-       // $this->db = $db;
-    }
-
-    public function tempTest(){
-        var_dump('in here!');
+       
     }
 
     public function getUsers(){
-        $db = new DB();
-        $users = new UserModel();
+        
+        $users = new UserModel($this->db);
         return $users->getAll();
     }
 }

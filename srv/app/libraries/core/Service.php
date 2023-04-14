@@ -4,8 +4,4 @@ namespace App\Libraries\Core;
 
 class Service {
     
-    public function __construct() {
-        
-    }
-
 }

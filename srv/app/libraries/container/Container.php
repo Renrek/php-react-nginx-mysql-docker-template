@@ -15,6 +15,9 @@ class Container { //implements ContainerInterface {
         }
         //return new $id;
         //$this->resolve($id);
+        // if (\class_exists(new $id)){ // Psalm is being a PITA
+        //     throw new ContainerException('Unable to find class'. $id);
+        // }
         $reflection = new \ReflectionClass($id);
 
         if(! $reflection->isInstantiable()) {
@@ -30,12 +33,12 @@ class Container { //implements ContainerInterface {
         if (! $reflectionParameters) { 
             return new $id;
         }
-
+        
         $dependencies = array_map(
             function (\ReflectionParameter $param) use ($id) {
                 $name = $param->getName();
                 $type = $param->getType();
-
+                
                 if(! $type) {
                     throw new ContainerException('No type provided');
                 }
@@ -46,7 +49,7 @@ class Container { //implements ContainerInterface {
                     );
                 }
 
-                if ($type instanceof \ReflectionNamedType && ! $type->isBuiltin()) {
+                if ($type instanceof \ReflectionNamedType && !$type->isBuiltin()) { //var_dump($type->getName()); die();
                     return $this->get($type->getName());
                 }
 

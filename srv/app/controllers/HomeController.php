@@ -15,11 +15,9 @@ class HomeController extends Controller {
     public function index(): void 
     {   
 
-        //(new Container())->get(UserRelationshipServices::class)->tempTest();
-        //var_dump((new Container())->get(AuthenticationService::class));
-        $test = (new Container())->get(AuthenticationService::class);
-        $test->setEmail('bob@bob.com');
-        var_dump($test);
+        // $test = (new Container())->get(AuthenticationService::class);
+        // $test->setEmail('bob@bob.com');
+        
         // \session_unset();
         // \session_destroy();
         if(isset($_SESSION)){
@@ -27,7 +25,7 @@ class HomeController extends Controller {
         } else {
             $loggedIn = false;
         }
-        //throw new Exception('boo');
+        
         //trigger_error('My special error', E_USER_ERROR);
         
         $this->view = 'home/index';

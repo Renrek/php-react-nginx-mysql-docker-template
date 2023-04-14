@@ -5,15 +5,14 @@ namespace App\Services;
 use App\Libraries\Core\Service; 
 use App\Models\UserModel;
 use App\Attribute\DependencyInjector;
+use App\Libraries\Container\Container;
 
 //#[DependencyInjector]
 final class AuthenticationService extends Service {
     
     private string $userEmail;
 
-    public function __construct() {
-
-    }
+    public function __construct() {}
     
     public function setEmail(string $userEmail) {
         $this->userEmail = $userEmail;
@@ -29,7 +28,7 @@ final class AuthenticationService extends Service {
 
     public function verifyPassword(string $password) : bool
     {
-        $userModel = new UserModel();
+        $userModel = (new Container)->get(UserModel::class);
         $user = $userModel->getByEmail($this->userEmail);
         return password_verify($password, $user->passwordHash);
     }

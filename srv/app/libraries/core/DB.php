@@ -10,14 +10,14 @@ Class DB
 
     public PDO $pdo;
 
-    public function __construct($options = [])
+    public function __construct()
     {
-        $default_options = [
+        $options = [
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,// PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         ];
-        $options = array_replace($default_options, $options);
+       
         $dsn = "mysql:host=".DatabaseConst::HOST.";dbname=".DatabaseConst::NAME.";port=".DatabaseConst::PORT.";charset=utf8mb4";
 
         try {
@@ -26,6 +26,7 @@ Class DB
             throw new \PDOException($e->getMessage(), (int)$e->getCode());
         }
     }
+
     public function run(string $sql, $args = NULL)
     {
         if (!$args)
