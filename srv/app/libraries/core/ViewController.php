@@ -4,11 +4,16 @@
 
     use App\Helpers\RedirectHelper;
     use App\Exceptions\ViewNotFoundException;
+    use App\Libraries\Core\ControllerTrait;
+    use App\Libraries\Injection\ContainerTrait;
     use str_starts_with;
     use str_ends_with;
 
-    class Controller
+    class ViewController
     {
+        use ControllerTrait;
+        use ContainerTrait;
+
         protected string $header = 'header.php';
         protected string $footer = 'footer.php';
         protected string $title = SITE_NAME;

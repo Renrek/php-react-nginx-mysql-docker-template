@@ -5,11 +5,13 @@ namespace App\Libraries\Core;
 use App\Config\DatabaseConst;
 use App\Libraries\Core\DB;
 use AllowDynamicProperties;
-
+use App\Libraries\Injection\ContainerTrait;
 
 // At the end of the day this may be better using a build step to get away from Dynamic Properties.
 #[AllowDynamicProperties]
 class Model {
+    
+    use ContainerTrait;
     
     protected DB $db;
     protected string $table;

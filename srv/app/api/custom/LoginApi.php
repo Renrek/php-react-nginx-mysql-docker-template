@@ -2,10 +2,10 @@
 
 namespace App\Api\Custom;
 
-use App\Libraries\Core\Api;
+use App\Libraries\Core\ApiController;
 use App\Services\AuthenticationService;
 
-class LoginApi extends Api {
+class LoginApi extends ApiController {
 
   public function verify(){
     $test = $_SERVER['REQUEST_METHOD'] ?? null;

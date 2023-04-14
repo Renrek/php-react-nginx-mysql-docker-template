@@ -2,22 +2,21 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Core\Controller;
+use App\Libraries\Core\ViewController;
 use App\Helpers\RedirectHelper;
 use App\Helpers\ReactHelper;
 use Exception;
 
-use App\Libraries\Container\Container;
 use App\Services\AuthenticationService;
 
-class HomeController extends Controller {
+class HomeController extends ViewController {
 
     public function index(): void 
     {   
 
-        // $test = (new Container())->get(AuthenticationService::class);
+        // $test = $this->resource()->get(AuthenticationService::class);
         // $test->setEmail('bob@bob.com');
-        
+        // var_dump($test);
         // \session_unset();
         // \session_destroy();
         if(isset($_SESSION)){

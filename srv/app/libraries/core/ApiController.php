@@ -2,10 +2,14 @@
 
     namespace App\Libraries\Core;
 
+    use App\Libraries\Core\ControllerTrait;
+    use App\Libraries\Injection\ContainerTrait;
     use json_encode;
 
-    class Api
+    class ApiController
     {
+        use ControllerTrait;
+        use ContainerTrait;
         // public function __construct(){
         //     $data = (object) [
         //         'test' => 'something',

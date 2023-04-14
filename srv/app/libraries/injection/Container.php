@@ -1,14 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace App\Libraries\Container;
+namespace App\Libraries\Injection;
 
 use App\Exceptions\ContainerException;
+use App\Libraries\Injection\ContainerInterface;
 
-class Container { //implements ContainerInterface {
+class Container implements ContainerInterface {
 
     private array $entries = [];
 
-    public function get(string $id) {
+    public function get(string $id) : mixed {
         if ($this->has($id)) {
             $class = $this->entries[$id];
             return $class($this);
@@ -49,7 +50,7 @@ class Container { //implements ContainerInterface {
                     );
                 }
 
-                if ($type instanceof \ReflectionNamedType && !$type->isBuiltin()) { //var_dump($type->getName()); die();
+                if ($type instanceof \ReflectionNamedType && !$type->isBuiltin()) { 
                     return $this->get($type->getName());
                 }
 
@@ -71,6 +72,5 @@ class Container { //implements ContainerInterface {
 
     public function resolve(string $id) {
 
-        
     }
 }
