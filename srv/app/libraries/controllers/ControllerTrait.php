@@ -2,6 +2,8 @@
 
 namespace App\Libraries\Controllers;
 
+use App\Controllers\NotFoundController;
+
 trait ControllerTrait {
 
     protected function generateReactElement(
@@ -15,5 +17,16 @@ trait ControllerTrait {
             .$componentName
             .'" data-parameters="'
             .$parameters.'"></div>';
-    }     
+    }   
+    
+    protected function sendToHome() : void 
+    {
+        header('location: '. URL_ROOT);
+    }
+
+    protected function sendToNotFound() : void
+    {
+        $notFound = new NotFoundController();
+        $notFound->index();
+    }
 }

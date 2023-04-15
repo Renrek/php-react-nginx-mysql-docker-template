@@ -35,15 +35,19 @@ abstract class RouteAbstract implements RouteInterface {
     protected function validateRequest( string $class, string $method ): void {
 
         $file = $this->getClassPath().$class.$this->getClassSuffix().'.php';
-        if(!realpath($file)){
+        if(!file_exists($file)){
             $this->handleNotFound();
         }
 
         $fullClassName = $this->getNamespace().$class.$this->getClassSuffix();
+        if(!class_exists($fullClassName)){
+            $this->handleNotFound();
+        }
+        
         if(!method_exists(new $fullClassName, $method)){
             $this->handleNotFound();
         }
-
+        
     }
 
     protected function validateRequestMethod( string $requestMethod ) : void {

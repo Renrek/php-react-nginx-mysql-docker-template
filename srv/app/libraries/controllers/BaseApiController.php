@@ -22,7 +22,7 @@
         //     $this->response(200, $data);
         // }
 
-        protected function response($code, $data){
+        protected function response($code, $data): void {
             $payload = json_encode($data);
             http_response_code($code);
             echo $payload;

@@ -26,7 +26,7 @@ class MysqlPdoWrapper {
         }
     }
  
-    public function run(string $sql, $args = NULL)
+    public function run(string $sql, array|null $args = NULL) : mixed
     {
         if (!$args)
         {

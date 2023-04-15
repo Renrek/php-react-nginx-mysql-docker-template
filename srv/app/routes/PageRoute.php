@@ -3,6 +3,7 @@
 namespace App\Routes;
 
 use App\Libraries\Routing\RouteAbstract;
+use App\Controllers\NotFoundController;
 
 class PageRoute extends RouteAbstract{
 
@@ -51,6 +52,8 @@ class PageRoute extends RouteAbstract{
     }
 
     protected function handleNotFound () : void {
-        var_dump('shit! - not found - proper handling coming'); die();
+        $notFound = new NotFoundController();
+        $notFound->index();
+        die();
     }
 }

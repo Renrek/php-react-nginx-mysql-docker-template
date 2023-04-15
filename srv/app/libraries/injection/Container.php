@@ -14,11 +14,14 @@ class Container implements ContainerInterface {
             $class = $this->entries[$id];
             return $class($this);
         }
+        
         //return new $id;
         //$this->resolve($id);
-        // if (\class_exists(new $id)){ // Psalm is being a PITA
-        //     throw new ContainerException('Unable to find class'. $id);
-        // }
+        
+        if (!class_exists($id)){
+            throw new ContainerException('Unable to find class'. $id);
+        }
+
         $reflection = new \ReflectionClass($id);
 
         if(! $reflection->isInstantiable()) {
@@ -36,7 +39,7 @@ class Container implements ContainerInterface {
         }
         
         $dependencies = array_map(
-            function (\ReflectionParameter $param) use ($id) {
+            function (\ReflectionParameter $param) use ($id): mixed {
                 $name = $param->getName();
                 $type = $param->getType();
                 

@@ -11,7 +11,7 @@ final class AuthenticationService extends Service {
 
     public function __construct() {}
     
-    public function setEmail(string $userEmail) {
+    public function setEmail(string $userEmail): void {
         $this->userEmail = $userEmail;
     }
 

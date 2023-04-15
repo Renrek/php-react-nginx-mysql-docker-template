@@ -4,7 +4,7 @@ namespace App\Libraries\Injection;
 
 trait ContainerTrait {
 
-    protected function resource() {
+    protected function resource(): object {
         return new Container();
     }
     

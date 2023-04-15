@@ -17,7 +17,7 @@ class UserRelationshipServices extends Service {
        
     }
 
-    public function getUsers(){
+    public function getUsers(): array {
         
         $users = new UserModel($this->db);
         return $users->getAll();

@@ -7,7 +7,7 @@ use App\Services\AuthenticationService;
 
 class LoginApi extends BaseApiController {
 
-  public function verify(){
+  public function verify(): void {
     $test = $_SERVER['REQUEST_METHOD'] ?? null;
     $body = json_decode(file_get_contents('php://input'));
     $authService = new AuthenticationService();
@@ -20,7 +20,7 @@ class LoginApi extends BaseApiController {
     $this->response(200, ['loggedIn' => $isLoggedin]);
   }
 
-  public function logOut(){
+  public function logOut(): void {
     session_unset();
     session_destroy();
     header("Access-Control-Allow-Origin: *");
