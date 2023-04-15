@@ -14,9 +14,9 @@ class HomeController extends ViewController {
     public function index(): void 
     {   
 
-        // $test = $this->resource()->get(AuthenticationService::class);
-        // $test->setEmail('bob@bob.com');
-        // var_dump($test);
+        $test = $this->resource()->get(AuthenticationService::class);
+        $test->setEmail('bob@bob.com');
+        var_dump($test);
         // \session_unset();
         // \session_destroy();
         if(isset($_SESSION)){

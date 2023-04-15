@@ -3,7 +3,7 @@
 namespace App\Libraries\Core;
 
 use App\Config\DatabaseConst;
-use App\Libraries\Core\DB;
+use App\Libraries\Data\DB;
 use AllowDynamicProperties;
 use App\Libraries\Injection\ContainerTrait;
 

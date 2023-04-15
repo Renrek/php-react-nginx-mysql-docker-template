@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Libraries\Core\Service;
-use App\Libraries\Core\DB;
+use App\Libraries\Data\DB;
 use App\Models\UserModel;
 
 

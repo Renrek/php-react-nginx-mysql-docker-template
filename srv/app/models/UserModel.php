@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Libraries\Core\Model;
-use App\Libraries\Core\DB;
+use App\Libraries\Data\DB;
 
 class UserModel extends Model
 { 

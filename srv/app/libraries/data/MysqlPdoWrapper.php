@@ -1,23 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace App\Libraries\Core;
+namespace App\Libraries\Data;
 
 use App\Config\DatabaseConst;
 use PDO;
 
-Class DB 
-{
+class MysqlPdoWrapper {
 
     public PDO $pdo;
 
-    public function __construct()
+    public function __construct() // #options = []
     {
-        $options = [
+        $options = [ //$defaultOptions
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,// PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         ];
-       
+        //$options = array_replace($defaultOptions, $options);
         $dsn = "mysql:host=".DatabaseConst::HOST.";dbname=".DatabaseConst::NAME.";port=".DatabaseConst::PORT.";charset=utf8mb4";
 
         try {
@@ -26,7 +25,7 @@ Class DB
             throw new \PDOException($e->getMessage(), (int)$e->getCode());
         }
     }
-
+ 
     public function run(string $sql, $args = NULL)
     {
         if (!$args)

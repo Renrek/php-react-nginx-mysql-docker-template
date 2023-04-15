@@ -13,7 +13,7 @@ class UsersApi extends ApiController {
   }
 
   public function list(): void {
-    $userRelationshipService = (new Container)->get(UserRelationshipServices::class);
+    $userRelationshipService = $this->resource()->get(UserRelationshipServices::class);
     $users = $userRelationshipService->getUsers();
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
