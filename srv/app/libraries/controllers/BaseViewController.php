@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-    namespace App\Libraries\Core;
+    namespace App\Libraries\Controllers;
 
     use App\Helpers\RedirectHelper;
     use App\Exceptions\ViewNotFoundException;
-    use App\Libraries\Core\ControllerTrait;
+    use App\Libraries\Controllers\ControllerTrait;
     use App\Libraries\Injection\ContainerTrait;
     use str_starts_with;
     use str_ends_with;
 
-    class ViewController
+    class BaseViewController
     {
         use ControllerTrait;
         use ContainerTrait;

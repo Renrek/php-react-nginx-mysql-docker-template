@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-    namespace App\Libraries\Core;
+    namespace App\Libraries\Controllers;
 
-    use App\Libraries\Core\ControllerTrait;
+    use App\Libraries\Controllers\ControllerTrait;
     use App\Libraries\Injection\ContainerTrait;
     use json_encode;
 
-    class ApiController
+    class BaseApiController
     {
         use ControllerTrait;
         use ContainerTrait;

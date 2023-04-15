@@ -2,21 +2,17 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Core\ViewController;
+use App\Libraries\Controllers\BaseViewController;
 use App\Helpers\RedirectHelper;
 use App\Helpers\ReactHelper;
 use Exception;
 
 use App\Services\AuthenticationService;
 
-class HomeController extends ViewController {
+class HomeController extends BaseViewController {
 
     public function index(): void 
     {   
-
-        $test = $this->resource()->get(AuthenticationService::class);
-        $test->setEmail('bob@bob.com');
-        var_dump($test);
         // \session_unset();
         // \session_destroy();
         if(isset($_SESSION)){
@@ -25,12 +21,15 @@ class HomeController extends ViewController {
             $loggedIn = false;
         }
         
-        //trigger_error('My special error', E_USER_ERROR);
         
         $this->view = 'home/index';
         $this->title .= ' - Welcome';
-        $loginElement = new ReactHelper('login', [ 'loggedIn' => $loggedIn]);
-        $this->data->loginElement = $loginElement->generateEntry();
+
+        $this->data->loginElement = $this->generateReactElement(
+            'login', 
+            [ 'loggedIn' => $loggedIn]
+        );
+
         $this->data->header = "Header Text";
         $this->render();
     }

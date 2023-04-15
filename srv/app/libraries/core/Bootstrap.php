@@ -14,7 +14,7 @@ class Bootstrap {
     }
 
     public function init(): void {
-        //session_start();
+        session_start();
         //error_reporting(E_ALL);
         //$this->errorHandler();
         //$this->exceptionHandler(); // Enable this in production

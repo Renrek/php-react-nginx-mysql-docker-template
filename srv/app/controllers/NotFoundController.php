@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Core\ViewController;
+use App\Libraries\Controllers\BaseViewController;
 
 
-class NotFoundController extends ViewController {
+class NotFoundController extends BaseViewController {
 
     public function index(): void {
         $this->view = 'notFound/index';

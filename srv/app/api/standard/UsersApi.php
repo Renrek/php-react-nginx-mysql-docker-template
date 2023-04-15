@@ -2,11 +2,11 @@
 
 namespace App\Api\Standard;
 
-use App\Libraries\Core\ApiController;
+use App\Libraries\Controllers\BaseApiController;
 use App\Services\UserRelationshipServices;
 use App\Libraries\Container\Container;
 
-class UsersApi extends ApiController {
+class UsersApi extends BaseApiController {
 
   public function __construct(){
    
