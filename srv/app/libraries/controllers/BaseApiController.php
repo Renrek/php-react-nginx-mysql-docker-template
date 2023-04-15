@@ -1,11 +1,15 @@
 <?php declare(strict_types=1);
 
-    namespace App\Libraries\Core;
+    namespace App\Libraries\Controllers;
 
+    use App\Libraries\Controllers\ControllerTrait;
+    use App\Libraries\Injection\ContainerTrait;
     use json_encode;
 
-    class Api
+    class BaseApiController
     {
+        use ControllerTrait;
+        use ContainerTrait;
         // public function __construct(){
         //     $data = (object) [
         //         'test' => 'something',

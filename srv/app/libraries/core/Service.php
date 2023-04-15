@@ -2,10 +2,10 @@
 
 namespace App\Libraries\Core;
 
+use App\Libraries\Injection\ContainerTrait;
+
 class Service {
     
-    public function __construct() {
-        
-    }
-
+    use ContainerTrait;
+    
 }

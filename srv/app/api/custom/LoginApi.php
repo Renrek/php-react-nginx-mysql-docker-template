@@ -2,15 +2,16 @@
 
 namespace App\Api\Custom;
 
-use App\Libraries\Core\Api;
+use App\Libraries\Controllers\BaseApiController;
 use App\Services\AuthenticationService;
 
-class LoginApi extends Api {
+class LoginApi extends BaseApiController {
 
   public function verify(){
     $test = $_SERVER['REQUEST_METHOD'] ?? null;
     $body = json_decode(file_get_contents('php://input'));
-    $authService = new AuthenticationService($body->email);
+    $authService = new AuthenticationService();
+    $authService->setEmail($body->email);
     $isLoggedin = $authService->verifyPassword($body->password); 
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");

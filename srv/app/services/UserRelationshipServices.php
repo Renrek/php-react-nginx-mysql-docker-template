@@ -3,19 +3,23 @@
 namespace App\Services;
 
 use App\Libraries\Core\Service;
-use App\Libraries\Core\DB;
+use App\Libraries\Data\DB;
 use App\Models\UserModel;
+
 
 
 class UserRelationshipServices extends Service {
 
-    public function __construct(){
-        
+    
+    public function __construct(
+       private DB $db
+    ){
+       
     }
 
     public function getUsers(){
-        $db = new DB();
-        $users = new UserModel();
+        
+        $users = new UserModel($this->db);
         return $users->getAll();
     }
 }

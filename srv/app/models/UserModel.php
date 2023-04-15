@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Libraries\Core\Model;
-use App\Libraries\Core\DB;
+use App\Libraries\Data\DB;
 
 class UserModel extends Model
 { 
-    public function __construct()
+    public function __construct(DB $db)
     {
-        $this->db = new DB;
+        $this->db = $db;
         $this->table = 'user';
         $this->primaryKey = 'id';
         $this->publicFields = ['id', 'email', 'firstName', 'lastName', 'createdAt', 'updatedAt'];

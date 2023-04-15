@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Core\Controller;
+use App\Libraries\Controllers\BaseViewController;
 use App\Helpers\RedirectHelper;
 use App\Helpers\ReactHelper;
 use Exception;
 
-class HomeController extends Controller {
+use App\Services\AuthenticationService;
+
+class HomeController extends BaseViewController {
 
     public function index(): void 
     {   
@@ -18,13 +20,16 @@ class HomeController extends Controller {
         } else {
             $loggedIn = false;
         }
-        //throw new Exception('boo');
-        //trigger_error('My special error', E_USER_ERROR);
+        
         
         $this->view = 'home/index';
         $this->title .= ' - Welcome';
-        $loginElement = new ReactHelper('login', [ 'loggedIn' => $loggedIn]);
-        $this->data->loginElement = $loginElement->generateEntry();
+
+        $this->data->loginElement = $this->generateReactElement(
+            'login', 
+            [ 'loggedIn' => $loggedIn]
+        );
+
         $this->data->header = "Header Text";
         $this->render();
     }
