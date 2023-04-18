@@ -9,7 +9,6 @@ class NotFoundController extends BaseViewController {
 
     public function index(): void {
         http_response_code(ResponseConst::NOT_FOUND);
-        $this->view = 'notFound/index';
-        $this->render();
+        $this->render('notFound/index');
     }
 }

@@ -3,6 +3,7 @@
     require_once 'app/libraries/core/Bootstrap.php';
     $bootstrap = new App\Libraries\Core\Bootstrap();
     $bootstrap->init();
+    $bootstrap->startSession();
 
     $requestParser = new App\Libraries\Routing\RequestParser();
     $requestPath = $requestParser->getPath();

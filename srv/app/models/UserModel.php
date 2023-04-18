@@ -21,7 +21,7 @@ class UserModel extends Model
         return $this->db->run($statement, [])->fetchAll();
     }
 
-    public function getByEmail(string $email):object {
+    public function getFullUserByEmail(string $email):object {
         $this->publicFields[] = 'passwordHash';
         $statement = $this->selectPrefix() . ' WHERE email = ?';
         return $this->db->run($statement, [$email])->fetch();

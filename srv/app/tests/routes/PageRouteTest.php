@@ -2,10 +2,10 @@
 
 namespace App\Tests\Routes;
 
-use PHPUnit\Framework\TestCase;
+use App\Libraries\Testing\BaseTest;
 use App\Routes\PageRoute;
 
-final class PageRouteTest extends TestCase {
+final class PageRouteTest extends BaseTest {
 
     private PageRoute $route;
 

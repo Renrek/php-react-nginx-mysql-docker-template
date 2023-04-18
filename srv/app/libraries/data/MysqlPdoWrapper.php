@@ -9,14 +9,13 @@ class MysqlPdoWrapper {
 
     public PDO $pdo;
 
-    public function __construct() // #options = []
-    {
-        $options = [ //$defaultOptions
+    public function __construct(array $options) {
+        $defaultOptions = [
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,// PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         ];
-        //$options = array_replace($defaultOptions, $options);
+        $options = array_replace($defaultOptions, $options);
         $dsn = "mysql:host=".DatabaseConst::HOST.";dbname=".DatabaseConst::NAME.";port=".DatabaseConst::PORT.";charset=utf8mb4";
 
         try {

@@ -4,20 +4,25 @@ namespace App\Api\Custom;
 
 use App\Libraries\Controllers\BaseApiController;
 use App\Services\AuthenticationService;
+use App\Config\ResponseConst;
 
 class LoginApi extends BaseApiController {
 
   public function verify(): void {
-    $test = $_SERVER['REQUEST_METHOD'] ?? null;
+
     $body = json_decode(file_get_contents('php://input'));
-    $authService = new AuthenticationService();
-    $authService->setEmail($body->email);
-    $isLoggedin = $authService->verifyPassword($body->password); 
+    $authService = $this->resource()->get(AuthenticationService::class);
+    $isValid = $authService->verifyPassword($body->email, $body->password);
+    
+    if ($isValid) {
+      $_SESSION['userId'] = $authService->getUserId();
+    } 
+
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
     header("Access-Control-Allow-Methods: GET");
-    header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-    $this->response(200, ['loggedIn' => $isLoggedin]);
+    header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization");
+    $this->response(ResponseConst::OK);
   }
 
   public function logOut(): void {
@@ -27,6 +32,6 @@ class LoginApi extends BaseApiController {
     header("Content-Type: application/json; charset=UTF-8");
     header("Access-Control-Allow-Methods: GET");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-    $this->response(200, ['this' => 'ddd cool']);
+    $this->response(ResponseConst::OK, ['this' => 'ddd cool']);
   }
 }

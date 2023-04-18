@@ -4,10 +4,10 @@ import './Login.scss';
 import { registerComponent } from '../../component.loader';
 
 const Login : React.FC<{}> = props => {
-    
+
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-
+    
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const data = {
@@ -19,11 +19,8 @@ const Login : React.FC<{}> = props => {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            
-            //window.location.reload()
+        .then(() => {
+            window.location.reload()
         })
         .catch(error => console.log(error));
     }

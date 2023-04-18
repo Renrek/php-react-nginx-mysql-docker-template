@@ -4,30 +4,23 @@
 
     use App\Libraries\Controllers\ControllerTrait;
     use App\Libraries\Injection\ContainerTrait;
-    use json_encode;
+    use App\Helpers\CsrfTokenTrait;
 
     class BaseApiController
     {
+        use CsrfTokenTrait;
         use ControllerTrait;
         use ContainerTrait;
-        // public function __construct(){
-        //     $data = (object) [
-        //         'test' => 'something',
-        //         'number' => 23,
-        //     ];
-        //     header("Access-Control-Allow-Origin: *");
-        //     header("Content-Type: application/json; charset=UTF-8");
-        //     header("Access-Control-Allow-Methods: GET");
-        //     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-        //     $this->response(200, $data);
-        // }
-
-        protected function response($code, $data): void {
+ 
+        protected function response(int $code, mixed $data=[]): void {
             $payload = json_encode($data);
             http_response_code($code);
-            echo $payload;
+            if (! empty($data)){
+                echo $payload;
+            }
         }
 
-        // list get create update delete
-        //library.googleapis.com/shelves/shelf1/books/book2"
+        protected function validateRequestMethods(array $methods): void {
+
+        }
     }
