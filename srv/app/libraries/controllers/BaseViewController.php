@@ -6,32 +6,25 @@
     use App\Exceptions\ViewNotFoundException;
     use App\Libraries\Controllers\ControllerTrait;
     use App\Libraries\Injection\ContainerTrait;
-    use str_starts_with;
-    use str_ends_with;
+    use App\Helpers\CsrfTokenTrait;
 
     class BaseViewController
     {
+        use CsrfTokenTrait;
         use ControllerTrait;
         use ContainerTrait;
 
         protected string $header = 'header.php';
         protected string $footer = 'footer.php';
-        protected string $title = SITE_NAME;
-        protected string $view;
-        protected object $data;
-
-        public function __construct(){  
-            $this->data = (object) [];   
-        }
-     
-        public function render() : void 
-        {          
-            if(file_exists('../app/views/pages/'. $this->view . '.php')){
-                $title = $this->title;
-                $data = $this->data;
+        
+        public function render(
+            string $view, 
+            object|null $data = null, 
+            string $title = SITE_NAME 
+        ) : void {          
+            if(file_exists('../app/views/pages/'. $view . '.php')){
                 $headerPath = APP_ROOT . '/views/include/'.$this->header;
                 $footerPath = APP_ROOT . '/views/include/'.$this->footer;
-                $view = $this->view;
                 [$scripts, $styles] = $this->lookupAssets();
                 require_once '/srv/app/views/layout.php';
             } else {

@@ -8,7 +8,7 @@ use App\Models\UserModel;
 
 
 
-class UserRelationshipServices extends Service {
+class UserRelationshipService extends Service {
 
     
     public function __construct(

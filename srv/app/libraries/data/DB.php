@@ -6,4 +6,7 @@ use App\Libraries\Data\MysqlPdoWrapper;
 
 class DB extends MysqlPdoWrapper {
 
+    public function __construct() {
+        parent::__construct([]);
+    }
 }

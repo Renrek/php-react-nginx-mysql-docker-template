@@ -8,21 +8,19 @@ use Exception;
 
 class Bootstrap {
 
-    public function __construct(){
-        
-        
-    }
+    public function __construct(){}
 
     public function init(): void {
-        session_start();
         //error_reporting(E_ALL);
         //$this->errorHandler();
         //$this->exceptionHandler(); // Enable this in production
         $this->classAutoLoaders();
         $this->loadGlobals();
-        //throw new Exception('Bass Fishing');
-        //trigger_error('BaH');
-        //$this->checkAddress(); 
+    }
+
+    public function startSession(): void {
+        session_start();
+        $this->checkClientAddress();
     }
 
     private function classAutoLoaders(): void {
@@ -77,14 +75,20 @@ class Bootstrap {
     }
 
 
-    // private function checkAddress(){
-    //     if(array_key_exists('ipAddress',$_SESSION)){
-    //         if ($_SERVER['REMOTE_ADDR'] !== $_SESSION['ipAddress']){
-    //             session_unset();
-    //             session_destroy();
-    //         }
-    //     } else {
-    //         $_SESSION['ipAddress'] = $_SERVER['REMOTE_ADDR'];
-    //     }
-    // }
+    private function checkClientAddress(){
+
+        if(!isset($_SERVER['REMOTE_ADDR'])) {
+            throw new \Exception('Something went wrong with fetching client IP');
+        }
+
+        if(isset($_SESSION['ipAddress'])){
+            if ($_SERVER['REMOTE_ADDR'] !== $_SESSION['ipAddress']){
+                session_unset();
+                session_destroy();
+            }
+        } else {
+            $_SESSION['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+            
+        }
+    }
 }

@@ -3,7 +3,7 @@
 namespace App\Api\Standard;
 
 use App\Libraries\Controllers\BaseApiController;
-use App\Services\UserRelationshipServices;
+use App\Services\UserRelationshipService;
 use App\Libraries\Container\Container;
 
 class UsersApi extends BaseApiController {
@@ -13,7 +13,7 @@ class UsersApi extends BaseApiController {
   }
 
   public function list(): void {
-    $userRelationshipService = $this->resource()->get(UserRelationshipServices::class);
+    $userRelationshipService = $this->resource()->get(UserRelationshipService::class);
     $users = $userRelationshipService->getUsers();
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");

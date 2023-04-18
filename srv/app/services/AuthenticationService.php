@@ -6,13 +6,15 @@ use App\Libraries\Core\Service;
 use App\Models\UserModel;
 
 final class AuthenticationService extends Service {
-    
-    private string $userEmail;
 
-    public function __construct() {}
+    private $userId;
     
-    public function setEmail(string $userEmail): void {
-        $this->userEmail = $userEmail;
+    public function __construct(
+        private UserModel $user
+    ) {}
+    
+    public function getUserId(): int {
+        return $this->userId;
     }
 
     public function createPassword(string $password) : bool
@@ -23,11 +25,14 @@ final class AuthenticationService extends Service {
         return true; //on success
     }
 
-    public function verifyPassword(string $password) : bool
+    public function verifyPassword(string $email, string $password) : bool
     {
-        $userModel = $this->resource()->get(UserModel::class);
-        $user = $userModel->getByEmail($this->userEmail);
-        return password_verify($password, $user->passwordHash);
+        $user = $this->user->getFullUserByEmail($email);
+        if (password_verify($password, $user->passwordHash)){
+            $this->userId = $user->id;
+            return true;
+        }
+        return false;
     }
 
     // May go into another home.
