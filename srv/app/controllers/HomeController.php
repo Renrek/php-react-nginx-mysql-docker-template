@@ -23,7 +23,7 @@ class HomeController extends BaseViewController {
         }
         
         $data->loginElement = $this->generateReactElement(
-            'login', 
+            'authentication', 
             [ 
                 'loggedIn' => $loggedIn,
             ]

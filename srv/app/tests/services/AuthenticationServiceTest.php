@@ -17,4 +17,8 @@ final class AuthenticationServiceTest extends BaseTest {
         $passwordHash = $this->authService->createPassword('goat');
         $this->assertTrue($passwordHash);
     }
+
+    public function testVerifyPassword(): void {
+        
+    }
 }
