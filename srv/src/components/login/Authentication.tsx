@@ -12,7 +12,7 @@ const LoginForm : React.FC<{authStore: AuthenticationStore}> = observer(props =>
     
     const startRegistration = (event: any) => {
         event.preventDefault();
-        authStore.setRegisteringStatus(true);
+        authStore.isRegistering = true;
     }
 
     const handleSubmit = async (event: any) => {
@@ -20,40 +20,47 @@ const LoginForm : React.FC<{authStore: AuthenticationStore}> = observer(props =>
         authStore.login(email,password);
     }
 
-    return <form style={{width: '200px'}} >   
-        <label className='form-label mt-2' htmlFor="email-input">Email</label>
-        <input
-            className='form-control'
-            value={email}
-            type="email"
-            onChange={(event)=> setEmail(event.target.value)}
-            name="email-input" 
-            id="email-input" 
-        />
-        <label className='form-label mt-2' htmlFor="password-input">Password</label>
-        <input 
-            required
-            className='form-control'
-            value={password}
-            onChange={(event)=> setPassword(event.target.value)}
-            type="password" 
-            name="password-input" 
-            id="password-input" 
-        />
-        <button 
-            type='submit'
-            className='btn btn-primary mt-2'
-            onClick={handleSubmit}
-        >
-            Login
-        </button>
-        <button
-            className='btn btn-primary mt-2'
-            onClick={startRegistration}
-        >
-            Register
-        </button>
-    </form>;
+    return <>
+    {authStore.isRegistering && 
+        <Registration />
+    }
+    {!authStore.isRegistering && 
+        <form style={{width: '200px'}} >   
+            <label className='form-label mt-2' htmlFor="email-input">Email</label>
+            <input
+                className='form-control'
+                value={email}
+                type="email"
+                onChange={(event)=> setEmail(event.target.value)}
+                name="email-input" 
+                id="email-input" 
+            />
+            <label className='form-label mt-2' htmlFor="password-input">Password</label>
+            <input 
+                required
+                className='form-control'
+                value={password}
+                onChange={(event)=> setPassword(event.target.value)}
+                type="password" 
+                name="password-input" 
+                id="password-input" 
+            />
+            <button 
+                type='submit'
+                className='btn btn-primary mt-2'
+                onClick={handleSubmit}
+            >
+                Login
+            </button>
+            <button
+                className='btn btn-primary mt-2'
+                onClick={startRegistration}
+            >
+                Register
+            </button>
+        </form>
+    }
+    </>;
 });
 
 const LogoutForm : React.FC<{authStore: AuthenticationStore}> = observer(props => {
@@ -154,9 +161,7 @@ const Registration : React.FC<{}> = observer(props => {
 const Authentication : React.FC<{authStore: AuthenticationStore}> = props => {
     const { authStore } = props;
     
-    if (authStore.isRegistering) {
-        return <Registration />
-    } else if (authStore.isLoggedIn) {
+    if (authStore.isLoggedIn) {
         return <LogoutForm authStore={authStore}/>
     } else {
         return <LoginForm authStore={authStore}/>
