@@ -34,4 +34,5 @@ class LoginApi extends BaseApiController {
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     $this->response(ResponseConst::OK, ['this' => 'ddd cool']);
   }
+
 }

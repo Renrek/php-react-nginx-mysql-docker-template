@@ -22,7 +22,7 @@ const LoginForm : React.FC<{authStore: AuthenticationStore}> = observer(props =>
 
     return <>
     {authStore.isRegistering && 
-        <Registration />
+        <Registration authStore={authStore}/>
     }
     {!authStore.isRegistering && 
         <form style={{width: '200px'}} >   
@@ -64,31 +64,41 @@ const LoginForm : React.FC<{authStore: AuthenticationStore}> = observer(props =>
 });
 
 const LogoutForm : React.FC<{authStore: AuthenticationStore}> = observer(props => {
-
-    const handleClick = async () => {
-        await fetch('/api/v1/custom/login/logOut', {
-            method: 'POST',
-            headers: {"Content-Type": "application/json"},
-        })
-        .then(() => window.location.reload())
-        .catch(error => console.log(error));
-    }
-    return <><button onClick={handleClick}>Log Out</button></>
+    const authStore = props.authStore
+    return <button onClick={authStore.logout}>Log Out</button>;
 });
 
 const RegisterEmailForm : React.FC<{authStore: AuthenticationStore}> = observer(props => {
+
+    const authStore = props.authStore;
+
+    const [email, setEmail] = React.useState('');
+    const [emailConfirm, setEmailConfirm] = React.useState('');
+    
+
+    const handleSubmitEmail = (event: any) => {
+        event.preventDefault();
+        console.log('made it to here, this will actually be in store');
+        
+    }
+
+    const validateEmail = () => {
+        
+        
+    }
 
     return <form style={{width: '200px'}} >   
         <label className='form-label mt-2' htmlFor="email-input">Email</label>
         <input
             className='form-control'
-            //value={}
+            value={email}
             type="email"
-            //onChange={}
+            onChange={(event) => setEmail(event.target.value)}
+            onBlur={validateEmail}
             name="email-input" 
             id="email-input" 
         />
-        <label className='form-label mt-2' htmlFor="password-input">Password</label>
+        <label className='form-label mt-2' htmlFor="password-input">Confirm Email</label>
         <input
             className='form-control'
             //value={}
@@ -100,14 +110,9 @@ const RegisterEmailForm : React.FC<{authStore: AuthenticationStore}> = observer(
         <button 
             type='submit'
             className='btn btn-primary mt-2'
-            //onClick={handleSubmit}
+            onClick={handleSubmitEmail}
         >
-            Login
-        </button>
-        <button
-            className='btn btn-info mt-2'
-        >
-            Register
+            Submit Email
         </button>
     </form>;
 });
@@ -154,8 +159,9 @@ const RegisterPasswordForm : React.FC<{authStore: AuthenticationStore}> = observ
     </form>;
 });
 
-const Registration : React.FC<{}> = observer(props => {
-    return<>Registration</>;
+const Registration : React.FC<{authStore: AuthenticationStore}> = observer(props => {
+    const authStore = props.authStore;
+    return<><RegisterEmailForm authStore={authStore}/></>;
 });
 
 const Authentication : React.FC<{authStore: AuthenticationStore}> = props => {
@@ -175,6 +181,12 @@ class AuthenticationStore {
 
     @observable
     public isRegistering: boolean = false;
+
+    @observable
+    public emailToRegister: string|null = null;
+
+    @observable
+    public passwordToRegister: string|null = null;
 
     constructor(isLoggedIn: boolean){
         makeObservable(this);
@@ -199,6 +211,15 @@ class AuthenticationStore {
         .then(() => {
             window.location.reload()
         })
+        .catch(error => console.log(error));
+    }
+
+    public async logout(): Promise<void> {
+        await fetch('/api/v1/custom/login/logOut', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+        })
+        .then(() => window.location.reload())
         .catch(error => console.log(error));
     }
 }
