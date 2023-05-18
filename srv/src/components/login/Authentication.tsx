@@ -52,12 +52,12 @@ const LoginForm : React.FC<{authStore: AuthenticationStore}> = observer(props =>
             >
                 Login
             </button>
-            <button
+            {/* <button
                 className='btn btn-primary mt-2'
                 onClick={startRegistration}
             >
                 Register
-            </button>
+            </button> */}
         </form>
     }
     </>;
@@ -74,6 +74,8 @@ const RegisterEmailForm : React.FC<{authStore: AuthenticationStore}> = observer(
 
     const [email, setEmail] = React.useState('');
     const [emailConfirm, setEmailConfirm] = React.useState('');
+    const [isEmailConfirmDisabled, setIsEmailConfirmDisabled] = React.useState(true);
+    const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = React.useState(true);
     
 
     const handleSubmitEmail = (event: any) => {
@@ -83,8 +85,10 @@ const RegisterEmailForm : React.FC<{authStore: AuthenticationStore}> = observer(
     }
 
     const validateEmail = () => {
-        
-        
+        // const regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+        // if (regex.test()) {
+        //     setIsEmailConfirmDisabled(false);
+        // }
     }
 
     return <form style={{width: '200px'}} >   
@@ -101,16 +105,18 @@ const RegisterEmailForm : React.FC<{authStore: AuthenticationStore}> = observer(
         <label className='form-label mt-2' htmlFor="password-input">Confirm Email</label>
         <input
             className='form-control'
-            //value={}
+            value={emailConfirm}
             type="email"
-            //onChange={}
+            onChange={(event) => setEmailConfirm(event.target.value)}
             name="email-input" 
             id="email-input" 
+            disabled={isEmailConfirmDisabled}
         />
         <button 
             type='submit'
             className='btn btn-primary mt-2'
             onClick={handleSubmitEmail}
+            disabled={isSubmitButtonDisabled}
         >
             Submit Email
         </button>
