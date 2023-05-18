@@ -35,12 +35,8 @@ final class AuthenticationService extends Service {
         return false;
     }
 
-    // May go into another home.
-    //   function isLoggedIn(){
-//     if(isset($_SESSION['userId'])){
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
+    public function emailExists(string $email): bool
+    {
+        
+    }
 }
