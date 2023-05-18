@@ -5,26 +5,26 @@ import { registerComponent } from '../../component.loader';
 import { action, makeObservable, observable } from 'mobx';
 import { observer } from 'mobx-react';
 
-const LoginForm : React.FC<{authStore: AuthenticationStore}> = observer(props => {
-    const {authStore} = props;
+const LoginForm : React.FC<{authState: AuthenticationState}> = observer(props => {
+    const {authState} = props;
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     
     const startRegistration = (event: any) => {
         event.preventDefault();
-        authStore.isRegistering = true;
+        authState.isRegistering = true;
     }
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
-        authStore.login(email,password);
+        authState.login(email,password);
     }
 
     return <>
-    {authStore.isRegistering && 
-        <Registration authStore={authStore}/>
+    {authState.isRegistering && 
+        <Registration authState={authState}/>
     }
-    {!authStore.isRegistering && 
+    {!authState.isRegistering && 
         <form style={{width: '200px'}} >   
             <label className='form-label mt-2' htmlFor="email-input">Email</label>
             <input
@@ -52,25 +52,25 @@ const LoginForm : React.FC<{authStore: AuthenticationStore}> = observer(props =>
             >
                 Login
             </button>
-            {/* <button
+            <button
                 className='btn btn-primary mt-2'
                 onClick={startRegistration}
             >
                 Register
-            </button> */}
+            </button>
         </form>
     }
     </>;
 });
 
-const LogoutForm : React.FC<{authStore: AuthenticationStore}> = observer(props => {
-    const authStore = props.authStore
-    return <button onClick={authStore.logout}>Log Out</button>;
+const LogoutForm : React.FC<{authState: AuthenticationState}> = observer(props => {
+    const authState = props.authState
+    return <button onClick={authState.logout}>Log Out</button>;
 });
 
-const RegisterEmailForm : React.FC<{authStore: AuthenticationStore}> = observer(props => {
+const RegisterEmailForm : React.FC<{authState: AuthenticationState}> = observer(props => {
 
-    const authStore = props.authStore;
+    const authState = props.authState;
 
     const [email, setEmail] = React.useState('');
     const [emailConfirm, setEmailConfirm] = React.useState('');
@@ -84,12 +84,7 @@ const RegisterEmailForm : React.FC<{authStore: AuthenticationStore}> = observer(
         
     }
 
-    const validateEmail = () => {
-        // const regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-        // if (regex.test()) {
-        //     setIsEmailConfirmDisabled(false);
-        // }
-    }
+    
 
     return <form style={{width: '200px'}} >   
         <label className='form-label mt-2' htmlFor="email-input">Email</label>
@@ -98,7 +93,6 @@ const RegisterEmailForm : React.FC<{authStore: AuthenticationStore}> = observer(
             value={email}
             type="email"
             onChange={(event) => setEmail(event.target.value)}
-            onBlur={validateEmail}
             name="email-input" 
             id="email-input" 
         />
@@ -123,8 +117,8 @@ const RegisterEmailForm : React.FC<{authStore: AuthenticationStore}> = observer(
     </form>;
 });
 
-const RegisterPasswordForm : React.FC<{authStore: AuthenticationStore}> = observer(props => {
-    const authStore = props.authStore;
+const RegisterPasswordForm : React.FC<{authState: AuthenticationState}> = observer(props => {
+    const authState = props.authState;
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
@@ -165,22 +159,22 @@ const RegisterPasswordForm : React.FC<{authStore: AuthenticationStore}> = observ
     </form>;
 });
 
-const Registration : React.FC<{authStore: AuthenticationStore}> = observer(props => {
-    const authStore = props.authStore;
-    return<><RegisterEmailForm authStore={authStore}/></>;
+const Registration : React.FC<{authState: AuthenticationState}> = observer(props => {
+    const authState = props.authState;
+    return<><RegisterEmailForm authState={authState}/></>;
 });
 
-const Authentication : React.FC<{authStore: AuthenticationStore}> = props => {
-    const { authStore } = props;
+const Authentication : React.FC<{authState: AuthenticationState}> = props => {
+    const { authState } = props;
     
-    if (authStore.isLoggedIn) {
-        return <LogoutForm authStore={authStore}/>
+    if (authState.isLoggedIn) {
+        return <LogoutForm authState={authState}/>
     } else {
-        return <LoginForm authStore={authStore}/>
+        return <LoginForm authState={authState}/>
     }
 }
 
-class AuthenticationStore {
+class AuthenticationState {
 
     @observable
     public isLoggedIn: boolean;
@@ -228,10 +222,15 @@ class AuthenticationStore {
         .then(() => window.location.reload())
         .catch(error => console.log(error));
     }
+
+    public validateEmail(email:string ): boolean {
+        const regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+        return regex.test(email)
+    }
 }
 
 registerComponent('authentication', (element, parameters )=> {
     const { loggedIn } = parameters;
-    const authStore = new AuthenticationStore(loggedIn);
-    ReactDOMClient.createRoot(element).render(<Authentication authStore={authStore}/>);
+    const authState = new AuthenticationState(loggedIn);
+    ReactDOMClient.createRoot(element).render(<Authentication authState={authState}/>);
 });
