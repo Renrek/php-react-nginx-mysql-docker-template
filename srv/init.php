@@ -1,15 +1,13 @@
 <?php declare(strict_types=1);
 
     require_once 'app/libraries/core/Bootstrap.php';
-    $bootstrap = new App\Libraries\Core\Bootstrap();
-    $bootstrap->init();
-    $bootstrap->startSession();
-
-    $requestParser = new App\Libraries\Routing\RequestParser();
-    $requestPath = $requestParser->getPath();
-
-    $routeManager = new App\Routes\RouteManager();
-    $route = $routeManager->getRoute($requestPath);
     
-    $router = new App\Libraries\Routing\Router($route, $requestParser);
+    (new App\Libraries\Core\Bootstrap())->run();
+    
+    (new App\Libraries\Core\App(
+        new App\Libraries\Routing\Router(
+            new App\Libraries\Injection\Container()
+        ),
+        new App\Libraries\Routing\RequestParser(),
+    ))->run();
     
