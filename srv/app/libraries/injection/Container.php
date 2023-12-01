@@ -10,14 +10,29 @@ class Container implements ContainerInterface {
     private array $entries = [];
 
     public function get(string $id) : mixed {
+
         if ($this->has($id)) {
-            $class = $this->entries[$id];
-            return $class($this);
+            $entry = $this->entries[$id];
+
+            if (is_callable($entry)) {
+                return $entry($this);
+            }
+
+            $id = $entry;
         }
-        
-        //return new $id;
-        //$this->resolve($id);
-        
+
+        return $this->resolve($id);
+    }
+
+    public function has(string $id): bool {
+        return isset($this->entries[$id]);
+    }
+
+    public function set(string $id, callable|string $concrete): void {
+        $this->entries[$id] = $concrete;
+    }   
+
+    public function resolve(string $id) {
         if (!class_exists($id)){
             throw new ContainerException('Unable to find class'. $id);
         }
@@ -63,17 +78,5 @@ class Container implements ContainerInterface {
         );
 
         return $reflection->newInstanceArgs($dependencies);
-    }
-
-    public function has(string $id): bool {
-        return isset($this->entries[$id]);
-    }
-
-    public function set(string $id, callable $hmm): void {
-        $this->entries[$id] = $hmm;
-    }   
-
-    public function resolve(string $id) {
-
     }
 }

@@ -35,8 +35,8 @@ final class AuthenticationService extends Service {
         return false;
     }
 
-    public function emailExists(string $email): bool
-    {
-        
-    }
+    // public function emailExists(string $email): bool
+    // {
+    //     return false;
+    // }
 }
