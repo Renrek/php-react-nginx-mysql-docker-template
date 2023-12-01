@@ -31,7 +31,7 @@ final class Router {
 
             foreach($controllers as $controller) { 
                 $reflectionController = new \ReflectionClass($controller); 
-
+                
                 $classAttribute = $reflectionController->getAttributes(Route::class, \ReflectionAttribute::IS_INSTANCEOF)[0];
                 
                 $basePath = $classAttribute->newInstance();
@@ -43,9 +43,10 @@ final class Router {
                         $route = $attribute->newInstance();
                         
                         $this->routes[] = $routeFormatter->getRoute(
-                            path: $basePath->path. $route->path,
-                            method: $route->method,
-                            action: [$controller, $method->getName()]
+                            requestPath: $basePath->path. $route->path,
+                            requestMethod: $route->method,
+                            controller: $controller,
+                            controllerMethod:  $method->getName(),
                         );
                         
                     }
@@ -53,28 +54,33 @@ final class Router {
             }
         }
 
-        // public function register(string $requestMethod, string $route, callable|array $action): self
-        // {
-        //     $this->tempRoutes[$requestMethod][$route] = $action;
-        //     return $this;
-        // }
-    
         
-    
         public function resolve(string $requestUri, string $requestMethod)
         { 
+            // Potential consideration
             // if (is_callable($action)) {
             //     return call_user_func($action);
             // }
             $requestedRoute = explode('?', $requestUri)[0];
             foreach ($this->routes as $k => $route) {
                 
-                if (preg_match($route->pattern, $requestedRoute) && $requestMethod === $route->method){
-                    $class = $this->container->get($route->action[0]);
-                    return call_user_func_array([$class, $route->action[1]], []);
+                if (preg_match($route->uriPattern, $requestedRoute) && $requestMethod === $route->requestMethod){
+                    $params = $this->extractParameters($requestedRoute, $route);
+                    $class = $this->container->get($route->controller);
+                    return call_user_func_array([$class, $route->controllerMethod], $params);
                 }
             }
 
             throw new RouteNotFoundException();
+        }
+
+        private function extractParameters(string $requestedRoute, $route): array 
+        {
+            $parameterList = [];
+            $routeParts = explode('/', rtrim(ltrim($requestedRoute, '/')));
+            foreach ($route->parameters as $parameter) {
+                $parameterList[] = $routeParts[$parameter->index];
+            }
+            return $parameterList;
         }
     }

@@ -22,7 +22,7 @@ class App
             return $this->router->resolve($this->requestParser->getPath(), strtolower($this->requestParser->getMethod()));
         } catch (RouteNotFoundException $e) {
             http_response_code(404);
-            echo 'not found';
+            echo $e.'- not found - App Catch';
             //echo View::make('error/404');
         }
     }

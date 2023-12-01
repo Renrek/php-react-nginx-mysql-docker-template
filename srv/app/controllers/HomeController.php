@@ -12,7 +12,7 @@ use App\Attributes\Routing\Methods\Post;
 #[Route(path: "")]
 class HomeController extends BaseViewController {
 
-    #[Get(path: "/")]
+    #[Get(path: "")]
     #[Get(path: "/special")]
     public function index(): void 
     {   
@@ -38,24 +38,12 @@ class HomeController extends BaseViewController {
         $this->render('home/index', $data, 'Welcome');
     }
 
-    #[Get(path: "/{id:int}/boondock/{thing}/stuff/{reallyThree}")]
-    public function boodock(): void 
-    {   
-        $data = (object) [];
-        
-        echo 'psst';
-        $this->render('notFound/index', $data, 'Welcome');
-    }
+    
 
-    #[Post(path: "/special")]
-    public function handleUpdate()
+    #[Get(path: "/test/{firstParam:string}/something/{secondParam}")]
+    public function handlePractice($firstParam, $secondParam)
     {
-        echo 'not it';
-    }
-
-    #[Post(path: "/test/{firstParam}")]
-    public function handlePractice($firstParam)
-    {
-        echo 'not it';
+        echo 'first Param: '. $firstParam;
+        echo 'second Param: '. $secondParam;
     }
 }

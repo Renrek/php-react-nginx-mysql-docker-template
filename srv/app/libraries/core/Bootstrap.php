@@ -10,12 +10,16 @@ class Bootstrap {
 
     public function __construct(){}
 
-    public function run(): void {
-        //error_reporting(E_ALL);
-        //$this->errorHandler();
-        //$this->exceptionHandler(); // Enable this in production
+    public function init(): void {
+        // error_reporting(E_ALL);
+        // $this->errorHandler();
+        // $this->exceptionHandler(); // Enable this in production
         $this->classAutoLoaders();
         $this->loadGlobals();
+    }
+
+    public function run(): void {
+        $this->init();
         $this->startSession();
     }
 
